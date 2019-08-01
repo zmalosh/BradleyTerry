@@ -1,0 +1,14 @@
+Package: BradleyTerry
+Type: Package
+Title: Creates a Bradley-Terry Prediction Model
+Version: 0.1.0
+Author: Zachary P. Malosh, MS, MBA
+Maintainer: Zachary P. Malosh, MS, MBA <maloshzp@gmail.com>
+Description: Create a Bradley-Terry model for team comparison.
+    This model only takes team results and home/away status for
+    creating predictions.
+License: N/A
+Encoding: UTF-8
+LazyData: true
+imports:
+  tidyverse, jsonlite, httr
