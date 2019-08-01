@@ -1,12 +1,11 @@
-Package: BradleyTerry
+Package: SportPredictR
 Type: Package
-Title: Creates a Bradley-Terry Prediction Model
+Title: Creates a Prediction Models for Sports
 Version: 0.1.0
 Author: Zachary P. Malosh, MS, MBA
 Maintainer: Zachary P. Malosh, MS, MBA <maloshzp@gmail.com>
-Description: Create a Bradley-Terry model for team comparison.
-    This model only takes team results and home/away status for
-    creating predictions.
+Description: Creates various models for predicting sports-based outcomes.
+    Currently only supporting the Bradley Terry model.
 License: N/A
 Encoding: UTF-8
 LazyData: true

@@ -138,7 +138,6 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 				   'homeFieldStrength' = teamStrengths[length(teamStrengths)],
 				   'coefLogisticResult' = coefLogisticResult,
 				   'coefIntercept' = coefIntercept,
-				   'logisticFunction' = logisticFunction,
 				   'model' = m,
 				   'predictGameByIds' = predictByIds,
 				   'predictGame' = predict,
