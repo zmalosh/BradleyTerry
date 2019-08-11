@@ -24,7 +24,8 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 						HomeTeamId = homeTeamIds,
 						AwayTeamId = awayTeamIds,
 						HomeScore = homeScores,
-						AwayScore = awayScores)
+						AwayScore = awayScores,
+						stringsAsFactors = FALSE)
 
 		# SCORES SHOULD EITHER BE BOTH NA OR NEITHER NA. GET RID OF BAD GAMES
 		g <- g %>% filter(!((is.na(HomeScore) & !is.na(AwayScore)) | (!is.na(HomeScore) & is.na(AwayScore))))
