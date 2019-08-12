@@ -1,0 +1,170 @@
+---
+title: "TOOR Model: Team OLS Optimized Rating"
+author: Zachary P. Malosh, MS, MBA
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+\tableofcontents
+
+# Libraries
+```{r setup}
+library(tidyverse)
+```
+
+# Get Games
+```{r 'Get Games'}
+games <- readr::read_csv('data/afl.csv', col_types = cols(
+  Date = col_character(),
+  AwayTeam = col_character(),
+  AwayScore = col_double(),
+  HomeTeam = col_character(),
+  HomeScore = col_double()
+))
+games <- data.frame(games, stringsAsFactors = FALSE)
+games$Date <- lubridate::parse_date_time(games$Date, 'ymd IM p', tz = 'Australia/Melbourne')
+games$GameId <- seq_len(nrow(games))
+gameCount <- nrow(games)
+print(gameCount)
+```
+
+Get list of AFL games. Games have the time of the games, the names of the teams involved, and the final score of the game. Additionally, a game ID is generated for each game. There are `r gameCount` games.
+
+# Calculate Observed Values
+```{r 'Calculate Observed Values'}
+games$GameTotal <- games$AwayScore + games$HomeScore
+games$HomeMOV <- games$HomeScore - games$AwayScore # MOV = Margin of Victory
+```
+
+For each game, the *GameTotal* (sum of both scores) and *HomeMOV* (Margin Of Victory for the home team) are calculated.
+
+# Get Bradley Terry Ratings
+```{r 'Get Bradley Terry Ratings'}
+source('R/BradleyTerry.R')
+bradleyTerryResults <- bradley_terry(games$GameId, games$HomeTeam, games$AwayTeam, games$HomeScore, games$AwayScore)
+bradleyTerryRatings <- bradleyTerryResults$teamStrengths
+ratingsDisplay <- data.frame(Team = names(bradleyTerryResults$teamStrengths),
+								  Rating = bradleyTerryResults$teamStrengths,
+								  stringsAsFactors = FALSE)
+rownames(ratingsDisplay) <- NULL
+knitr::kable(ratingsDisplay, caption = '2018 AFL Team Ratings')
+```
+
+The team ratings, per the Bradley Terry method, can be found above.
+ 
+# Create Minimization Functions
+```{r 'Create Min SSE Function'}
+source('R/SetupGames.R')
+
+sseMinFunction <- function(homeStrength, awayStrength, homeCoef, awayCoef, homeAdvCoef){
+	return(homeAdvCoef + (homeStrength * homeCoef) + (awayStrength * awayCoef))
+}
+
+f <- function(p, teamStrengths, games){
+	
+	# p = PARAMETERS
+	# p[1] = Home Field Advantage Coefficient
+	# p[2] = Home Strength Coefficient
+	# p[3] = Away Strength Coefficient
+	
+	g <- games %>%
+		mutate(HomeStrength = teamStrengths[HomeTeamId],
+			   AwayStrength = teamStrengths[AwayTeamId],
+			   SseMinResult = sseMinFunction(
+			   	homeStrength = HomeStrength,
+			   	awayStrength = AwayStrength,
+			   	homeAdvCoef = p[1],
+			   	homeCoef =  p[2],
+			   	awayCoef = p[3]),
+			   MarginOfVictoryErrSq = (HomeMarginOfVictory - SseMinResult) ** 2)
+	
+	result <- sum(g$MarginOfVictoryErrSq)
+	return(result)
+}
+```
+
+# Setup Games
+```{r 'Setup Games'}
+source('R/SetupGames.R')
+
+g <- setup_games(gameIds = games$GameId,
+				 homeTeamIds = games$HomeTeam,
+				 awayTeamIds = games$AwayTeam,
+				 homeScores = games$HomeScore,
+				 awayScores = games$AwayScore)
+```
+
+# Find Coefficients
+```{r 'Find Coefficients'}
+p <- rep(1, times = 3)
+coefficientOptimization <- nlm(f, p, teamStrengths = bradleyTerryRatings, games = g)
+coefs <- list(HomeFieldAdv = coefficientOptimization$estimate[1],
+			  HomeStr = coefficientOptimization$estimate[2],
+			  AwayStr = coefficientOptimization$estimate[3])
+print(coefs)
+```
+
+# Calculate Estimated Spread
+```{r 'Make Predictions'}
+g <- g %>%
+	mutate(EstimatedSpread = sseMinFunction(homeStrength = as.numeric(bradleyTerryRatings[HomeTeamId]),
+											awayStrength = as.numeric(bradleyTerryRatings[AwayTeamId]),
+											homeAdvCoef = as.numeric(coefs['HomeFieldAdv']),
+											homeCoef = as.numeric(coefs['HomeStr']),
+											awayCoef = as.numeric(coefs['AwayStr'])))
+```
+
+# Create Logistic Regression for Home Win Probability
+```{r 'Create Logistic Regression for Home Win Probability'}
+m <- lm(formula = HomeMarginOfVictory ~ EstimatedSpread, data = g)
+stdDev <- summary(m)$sigma
+g <- g %>%
+	mutate(HomeWinProb = 1 - pnorm(0, mean = EstimatedSpread, sd = stdDev),
+		   PredictedResult = ifelse(HomeWinProb > 0.5, 1, 0),
+		   IsResultPredicted = ifelse(GameResult == PredictedResult, 1, 0),
+		   PredictionError = EstimatedSpread - GameResult,
+		   ProbErrorSq = (GameResult - PredictedResult) ** 2,
+		   LogError = (GameResult * log(HomeWinProb)) + ((1-GameResult) * log(1 - HomeWinProb)))
+coefIntercept <- m$coefficients['(Intercept)']
+coefSpread <- m$coefficients['EstimatedSpread']
+```
+
+# Create Benchmarks
+```{r 'Create Benchmarks'}
+benchmarks <- data.frame(RawAccuracy = mean(g$IsResultPredicted),
+						 RSQ = summary(m)$r.squared,
+						 RMSE = sqrt(mean(g$PredictionError ** 2)),
+						 MAE = mean(abs(g$PredictionError)),
+						 BrierScore = mean(g$ProbErrorSq),
+						 LogLoss = -1 * mean(g$LogError))
+```
+
+# Create Prediction Functions
+```{r 'Create Prediction Functions'}
+predictByIds <- function(homeTeamId, awayTeamId, homeSpread = 0){
+	homeStrength <- bradleyTerryRatings[as.character(homeTeamId)]
+	awayStrength <- bradleyTerryRatings[as.character(awayTeamId)]
+	return(predict(homeStrength, awayStrength, homeSpread))
+}
+predict <- function(homeStrength, awayStrength, homeSpread = 0){
+	homeGoalsFavored <- -1 * homeSpread
+	awayGoalsFavored <- -1 * homeGoalsFavored
+	sseMinResult <- sseMinFunction(homeStrength = homeStrength,
+								   awayStrength = awayStrength,
+								   homeAdvCoef = as.numeric(coefs['HomeFieldAdv']),
+								   homeCoef = as.numeric(coefs['HomeStr']),
+								   awayCoef = as.numeric(coefs['AwayStr']))
+	predictedHomeSpread <- as.numeric(coefIntercept + (coefSpread * sseMinResult))
+	predictedAwaySpread <- -1 * predictedHomeSpread
+	homeWinPct <- 1 - pnorm(homeGoalsFavored + ifelse(homeGoalsFavored%%1==0, 0.5, 0), mean = predictedHomeSpread, sd = stdDev)
+	awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
+	drawWinPct <- 1 - (homeWinPct + awayWinPct)
+	result <- list(HomeSpread = homeSpread,
+				   HomeWinPct = homeWinPct,
+				   DrawWinPct = drawWinPct,
+				   AwayWinPct = awayWinPct)
+	return(result)
+}
+
+```
