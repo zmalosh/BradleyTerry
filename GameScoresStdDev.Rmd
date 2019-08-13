@@ -1,0 +1,175 @@
+---
+title: "Game Scores Standard Deviation Model"
+author: Zachary P. Malosh, MS, MBA
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+\tableofcontents
+
+# Libraries
+```{r setup}
+library(tidyverse)
+```
+
+# Get Games
+```{r 'Get Games'}
+games <- readr::read_csv('data/afl.csv', col_types = cols(
+  Date = col_character(),
+  AwayTeam = col_character(),
+  AwayScore = col_double(),
+  HomeTeam = col_character(),
+  HomeScore = col_double(),
+  IsNeutralSite = col_logical())
+)
+games <- data.frame(games, stringsAsFactors = FALSE)
+games$IsNeutralSite <- FALSE
+games$Date <- lubridate::parse_date_time(games$Date, 'ymd IM p', tz = 'Australia/Melbourne')
+games$GameId <- seq_len(nrow(games))
+```
+
+# Calculate Team Means
+```{r 'Calculate Team Means'}
+awayValues <- games %>%
+	transform(Team = AwayTeam) %>%
+	filter(!IsNeutralSite) %>%
+	group_by(Team) %>%
+	summarise(AwayPF = mean(AwayScore),
+			  AwayPA = mean(HomeScore))
+homeValues <- games %>%
+	transform(Team = HomeTeam) %>%
+	filter(!IsNeutralSite) %>%
+	group_by(Team) %>%
+	summarise(HomePF = mean(HomeScore),
+			  HomePA = mean(AwayScore))
+teamValues <- awayValues %>%
+	inner_join(homeValues, by = 'Team') %>%
+	transform(Team = as.character(Team))
+```
+
+# Create Minimization Functions
+```{r 'Create Minimization Functions'}
+sseMinFunction <- function(pfh, pah, pfa, paa, coef.intercept, coef.pfh, coef.pah, coef.pfa, coef.paa){
+	return(coef.intercept + (pfh * coef.pfh) + (pah * coef.pah) + (pfa * coef.pfa) + (paa * coef.paa))
+}
+
+f <- function(p, games){
+	g <- games %>%
+		mutate(SseMinResult = sseMinFunction(
+			pfh = HomePF.Home,
+			pah = HomePA.Home,
+			pfa = AwayPF.Away,
+			paa =  AwayPA.Away,
+			coef.intercept = p[1],
+			coef.pfh = p[2],
+			coef.pah = p[3],
+			coef.pfa = p[4],
+			coef.paa = p[5]),
+			MarginOfVictoryErrSq = (HomeMarginOfVictory - SseMinResult) ** 2)
+	
+	result <- sum(g$MarginOfVictoryErrSq)
+	return(result)
+}
+```
+
+# Setup Games
+```{r 'Setup Games'}
+source('R/SetupGames.R')
+
+g <- setup_games(gameIds = games$GameId,
+				 homeTeamIds = games$HomeTeam,
+				 awayTeamIds = games$AwayTeam,
+				 homeScores = games$HomeScore,
+				 awayScores = games$AwayScore,
+				 isNeutralSite = games$IsNeutralSite) %>%
+		inner_join(teamValues, by = c('AwayTeamId' = 'Team')) %>%
+		inner_join(teamValues, by = c('HomeTeamId' = 'Team'), suffix = c('.Away', '.Home'))
+```
+
+# Find Coefficients
+```{r 'Find Coefficients'}
+p <- rep(1, times = 5)
+coefficientOptimization <- nlm(f, p, games = g)
+coefs <- list(Intercept = coefficientOptimization$estimate[1],
+			  PFH = coefficientOptimization$estimate[2],
+			  PAH = coefficientOptimization$estimate[3],
+			  PFA = coefficientOptimization$estimate[4],
+			  PAA = coefficientOptimization$estimate[5])
+print(coefs)
+```
+
+# Calculate Estimated Spread
+```{r 'Make Predictions'}
+g <- g %>%
+	mutate(EstimatedSpread = sseMinFunction(pfh = HomePF.Home,
+											pah = HomePA.Home,
+											pfa = AwayPF.Away,
+											paa = AwayPA.Away,
+											coef.intercept = as.numeric(coefs['Intercept']),
+											coef.pfh = as.numeric(coefs['PFH']),
+											coef.pah = as.numeric(coefs['PAH']),
+											coef.pfa = as.numeric(coefs['PFA']),
+											coef.paa = as.numeric(coefs['PAA'])))
+```
+
+# Create Logistic Regression for Home Win Probability
+```{r 'Create Logistic Regression for Home Win Probability'}
+m <- lm(formula = HomeMarginOfVictory ~ EstimatedSpread, data = g)
+stdDev <- summary(m)$sigma
+g <- g %>%
+	mutate(HomeWinProb = 1 - pnorm(0, mean = EstimatedSpread, sd = stdDev),
+		   PredictedResult = ifelse(HomeWinProb > 0.5, 1, 0),
+		   IsResultPredicted = ifelse(GameResult == PredictedResult, 1, 0),
+		   PredictionError = EstimatedSpread - GameResult,
+		   ProbErrorSq = (GameResult - PredictedResult) ** 2,
+		   LogError = (GameResult * log(HomeWinProb)) + ((1-GameResult) * log(1 - HomeWinProb)))
+coefIntercept <- m$coefficients['(Intercept)']
+coefSpread <- m$coefficients['EstimatedSpread']
+```
+
+# Create Benchmarks
+```{r 'Create Benchmarks'}
+benchmarks <- data.frame(RawAccuracy = mean(g$IsResultPredicted),
+						 RSQ = summary(m)$r.squared,
+						 RMSE = sqrt(mean(g$PredictionError ** 2)),
+						 MAE = mean(abs(g$PredictionError)),
+						 BrierScore = mean(g$ProbErrorSq),
+						 LogLoss = -1 * mean(g$LogError))
+```
+
+# Create Prediction Functions
+```{r 'Create Prediction Functions'}
+predictByIds <- function(homeTeamId, awayTeamId, homeSpread = 0){
+	homeValues <- teamValues %>% filter(Team == as.character(homeTeamId))
+	awayValues <- teamValues %>% filter(Team == as.character(awayTeamId))
+	return(predict(pfh = homeValues$HomePF,
+				   pah = homeValues$HomePA,
+				   pfa = awayValues$AwayPF,
+				   paa = awayValues$AwayPA,
+				   homeSpread = homeSpread))
+}
+predict <- function(pfh, pah, pfa, paa, homeSpread = 0){
+	homeGoalsFavored <- -1 * homeSpread
+	awayGoalsFavored <- -1 * homeGoalsFavored
+	sseMinResult <- sseMinFunction(pfh = pfh,
+								   pah = pah,
+								   pfa = pfa,
+								   paa = paa,
+								   coef.intercept = as.numeric(coefs['Intercept']),
+								   coef.pfh = as.numeric(coefs['PFH']),
+								   coef.pah = as.numeric(coefs['PAH']),
+								   coef.pfa = as.numeric(coefs['PFA']),
+								   coef.paa = as.numeric(coefs['PAA']))
+	predictedHomeSpread <- as.numeric(coefIntercept + (coefSpread * sseMinResult))
+	predictedAwaySpread <- -1 * predictedHomeSpread
+	homeWinPct <- 1 - pnorm(homeGoalsFavored + ifelse(homeGoalsFavored%%1==0, 0.5, 0), mean = predictedHomeSpread, sd = stdDev)
+	awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
+	drawWinPct <- 1 - (homeWinPct + awayWinPct)
+	result <- list(HomeSpread = homeSpread,
+				   HomeWinPct = homeWinPct,
+				   DrawWinPct = drawWinPct,
+				   AwayWinPct = awayWinPct)
+	return(result)
+}
+```
