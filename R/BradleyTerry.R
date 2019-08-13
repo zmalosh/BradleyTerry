@@ -59,7 +59,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 	g <- g %>%
 		mutate(HomeStrength = teamStrengths[as.character(HomeTeamId)],
 			   AwayStrength = teamStrengths[as.character(AwayTeamId)],
-			   LogisticVal = logisticFunction(homeFieldAdvantage, HomeStrength, AwayStrength),
+			   LogisticVal = logisticFunction(homeFieldAdvantage, HomeStrength, AwayStrength, IsNeutralSite),
 			   LogisticResult = ifelse(GameResult == 1, LogisticVal, 1 - LogisticVal))
 
 	m <- lm(formula = HomeMarginOfVictory ~ LogisticResult, data = g)
@@ -83,16 +83,16 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 							 BrierScore = mean(g$ProbErrorSq),
 							 LogLoss = -1 * mean(g$LogError))
 
-	predictByIds <- function(homeTeamId, awayTeamId, homeSpread = 0){
+	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		homeStrength <- teamStrengths[as.character(homeTeamId)]
 		awayStrength <- teamStrengths[as.character(awayTeamId)]
 		homeFieldAdvantage <- strengths['HomeFieldAdvantage']
-		return(predict(homeStrength, awayStrength, homeFieldAdvantage, homeSpread))
+		return(predict(homeStrength, awayStrength, homeFieldAdvantage, isNeutralSite, homeSpread))
 	}
-	predict <- function(homeStrength, awayStrength, homeFieldAdvantage, homeSpread = 0){
+	predict <- function(homeStrength, awayStrength, homeFieldAdvantage, isNeutralSite = FALSE, homeSpread = 0){
 		homeGoalsFavored <- -1 * homeSpread
 		awayGoalsFavored <- -1 * homeGoalsFavored
-		logisticResult <- logisticFunction(homeFieldAdvantage, homeStrength, awayStrength)
+		logisticResult <- logisticFunction(homeFieldAdvantage, homeStrength, awayStrength, isNeutralSite)
 		predictedHomeSpread <- as.numeric(coefIntercept + (coefLogisticResult * logisticResult))
 		predictedAwaySpread <- -1 * predictedHomeSpread
 		homeWinPct <- 1 - pnorm(homeGoalsFavored + ifelse(homeGoalsFavored%%1==0, 0.5, 0), mean = predictedHomeSpread, sd = stdDev)

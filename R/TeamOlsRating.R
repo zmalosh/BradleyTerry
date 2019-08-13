@@ -18,9 +18,9 @@
 #'
 #' @export
 
-team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores){
-	sseMinFunction <- function(homeStrength, awayStrength, homeCoef, awayCoef, homeAdvCoef){
-		return(homeAdvCoef + (homeStrength * homeCoef) + (awayStrength * awayCoef))
+team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
+	sseMinFunction <- function(homeStrength, awayStrength, homeCoef, awayCoef, homeAdvCoef, isNeutralSite){
+		return(ifelse(isNeutralSite, 0, homeAdvCoef) + (homeStrength * homeCoef) + (awayStrength * awayCoef))
 	}
 
 	f <- function(p, teamStrengths, games){
@@ -36,40 +36,44 @@ team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayS
 				   SseMinResult = sseMinFunction(
 				   	homeStrength = HomeStrength,
 				   	awayStrength = AwayStrength,
-				   	homeAdvCoef = p[1],
-				   	homeCoef =  p[2],
-				   	awayCoef = p[3]),
+				   	homeCoef =  p[1],
+				   	awayCoef = p[2],
+				   	homeAdvCoef = p[3],
+				   	isNeutralSite = IsNeutralSite),
 				   MarginOfVictoryErrSq = (HomeMarginOfVictory - SseMinResult) ** 2)
 
 		result <- sum(g$MarginOfVictoryErrSq)
 		return(result)
 	}
 
-	g <- setup_games(gameIds = games$GameId,
-					 homeTeamIds = games$HomeTeam,
-					 awayTeamIds = games$AwayTeam,
-					 homeScores = games$HomeScore,
-					 awayScores = games$AwayScore)
-
 	btResults <- bradley_terry(gameIds = gameIds,
 							   homeTeamIds = homeTeamIds,
 							   awayTeamIds = awayTeamIds,
 							   homeScores = homeScores,
-							   awayScores = awayScores)
+							   awayScores = awayScores,
+							   isNeutralSite = isNeutralSite)
 	btRatings <- btResults$teamStrengths
+
+	g <- setup_games(gameIds = gameIds,
+					 homeTeamIds = homeTeamIds,
+					 awayTeamIds = awayTeamIds,
+					 homeScores = homeScores,
+					 awayScores = awayScores,
+					 isNeutralSite = isNeutralSite)
 
 	p <- rep(1, times = 3)
 	coefficientOptimization <- nlm(f, p, teamStrengths = btRatings, games = g)
-	coefs <- list(HomeFieldAdv = coefficientOptimization$estimate[1],
-				  HomeStr = coefficientOptimization$estimate[2],
-				  AwayStr = coefficientOptimization$estimate[3])
+	coefs <- list(HomeStr = coefficientOptimization$estimate[1],
+				  AwayStr = coefficientOptimization$estimate[2],
+				  HomeFieldAdv = coefficientOptimization$estimate[3])
 
 	g <- g %>%
 		mutate(EstimatedSpread = sseMinFunction(homeStrength = as.numeric(btRatings[HomeTeamId]),
 												awayStrength = as.numeric(btRatings[AwayTeamId]),
 												homeAdvCoef = as.numeric(coefs['HomeFieldAdv']),
 												homeCoef = as.numeric(coefs['HomeStr']),
-												awayCoef = as.numeric(coefs['AwayStr'])))
+												awayCoef = as.numeric(coefs['AwayStr']),
+												isNeutralSite = IsNeutralSite))
 
 	m <- lm(formula = HomeMarginOfVictory ~ EstimatedSpread, data = g)
 	stdDev <- summary(m)$sigma
@@ -90,12 +94,12 @@ team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayS
 							 BrierScore = mean(g$ProbErrorSq),
 							 LogLoss = -1 * mean(g$LogError))
 
-	predictByIds <- function(homeTeamId, awayTeamId, homeSpread = 0){
+	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		homeStrength <- btRatings[as.character(homeTeamId)]
 		awayStrength <- btRatings[as.character(awayTeamId)]
-		return(predict(homeStrength, awayStrength, homeSpread))
+		return(predict(homeStrength, awayStrength, isNeutralSite, homeSpread))
 	}
-	predict <- function(homeStrength, awayStrength, homeSpread = 0){
+	predict <- function(homeStrength, awayStrength, isNeutralSite = FALSE, homeSpread = 0){
 		homeGoalsFavored <- -1 * homeSpread
 		awayGoalsFavored <- -1 * homeGoalsFavored
 		sseMinResult <- sseMinFunction(homeStrength = homeStrength,
