@@ -1,3 +1,4 @@
+#' @export
 setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores){
 	g <- data.frame(GameId = gameIds,
 					HomeTeamId = homeTeamIds,
