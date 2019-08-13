@@ -1,10 +1,11 @@
 #' @export
-setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores){
+setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite){
 	g <- data.frame(GameId = gameIds,
 					HomeTeamId = homeTeamIds,
 					AwayTeamId = awayTeamIds,
 					HomeScore = homeScores,
 					AwayScore = awayScores,
+					IsNeutralSite = isNeutralSite,
 					stringsAsFactors = FALSE)
 
 	# SCORES SHOULD EITHER BE BOTH NA OR NEITHER NA. GET RID OF BAD GAMES
@@ -16,12 +17,14 @@ setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScore
 										 HomeTeamId = draws$HomeTeamId,
 										 AwayTeamId = draws$AwayTeamId,
 										 HomeScore = draws$HomeScore + 1,
-										 AwayScore = draws$AwayScore)
+										 AwayScore = draws$AwayScore,
+										 IsNeutralSite = draws$IsNeutralSite)
 	drawAwayWinReplacement <- data.frame(GameId = draws$GameId,
 										 HomeTeamId = draws$HomeTeamId,
 										 AwayTeamId = draws$AwayTeamId,
 										 HomeScore = draws$HomeScore,
-										 AwayScore = draws$AwayScore + 1)
+										 AwayScore = draws$AwayScore + 1,
+										 IsNeutralSite = draws$IsNeutralSite)
 	g <- g %>% filter(is.na(AwayScore) | is.na(HomeScore) | AwayScore != HomeScore)
 	g <- rbind(g, drawHomeWinReplacement, drawAwayWinReplacement)
 

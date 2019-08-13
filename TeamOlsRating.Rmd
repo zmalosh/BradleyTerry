@@ -20,9 +20,11 @@ games <- readr::read_csv('data/afl.csv', col_types = cols(
   AwayTeam = col_character(),
   AwayScore = col_double(),
   HomeTeam = col_character(),
-  HomeScore = col_double()
-))
+  HomeScore = col_double(),
+  IsNeutralSite = col_logical())
+)
 games <- data.frame(games, stringsAsFactors = FALSE)
+games$IsNeutralSite <- FALSE
 games$Date <- lubridate::parse_date_time(games$Date, 'ymd IM p', tz = 'Australia/Melbourne')
 games$GameId <- seq_len(nrow(games))
 gameCount <- nrow(games)

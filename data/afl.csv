@@ -1,199 +1,199 @@
-Date,AwayTeam,AwayScore,HomeTeam,HomeScore
-2018-Mar-22 7:25 PM,Carlton,95,Richmond,121
-2018-Mar-23 7:50 PM,Adelaide,87,Essendon,99
-2018-Mar-24 3:35 PM,Brisbane Lions,82,St Kilda,107
-2018-Mar-24 4:35 PM,Fremantle,60,Port Adelaide,110
-2018-Mar-24 7:25 PM,North Melbourne,39,Gold Coast,55
-2018-Mar-24 7:25 PM,Collingwood,67,Hawthorn,101
-2018-Mar-25 1:10 PM,Western Bulldogs,51,GWS Giants,133
-2018-Mar-25 3:20 PM,Geelong,97,Melbourne,94
-2018-Mar-25 7:20 PM,Sydney,115,West Coast,86
-2018-Mar-29 7:50 PM,Richmond,82,Adelaide,118
-2018-Mar-30 4:20 PM,St Kilda,43,North Melbourne,95
-2018-Mar-31 1:45 PM,Gold Coast,101,Carlton,67
-2018-Mar-31 4:35 PM,GWS Giants,95,Collingwood,79
-2018-Mar-31 7:25 PM,Melbourne,100,Brisbane Lions,74
-2018-Mar-31 8:10 PM,Essendon,90,Fremantle,106
-2018-Apr-1 3:20 PM,West Coast,121,Western Bulldogs,70
-2018-Apr-1 4:40 PM,Port Adelaide,94,Sydney,71
-2018-Apr-2 3:20 PM,Hawthorn,118,Geelong,117
-2018-Apr-6 7:50 PM,Collingwood,100,Carlton,76
-2018-Apr-7 1:45 PM,Brisbane Lions,92,Port Adelaide,97
-2018-Apr-7 2:10 PM,North Melbourne,86,Melbourne,123
-2018-Apr-7 4:35 PM,Fremantle,96,Gold Coast,68
-2018-Apr-7 7:25 PM,GWS Giants,87,Sydney,103
-2018-Apr-7 7:25 PM,Adelaide,104,St Kilda,55
-2018-Apr-8 1:10 PM,Hawthorn,89,Richmond,102
-2018-Apr-8 3:20 PM,Essendon,83,Western Bulldogs,104
-2018-Apr-8 4:40 PM,Geelong,80,West Coast,95
-2018-Apr-13 7:50 PM,Collingwood,106,Adelaide,58
-2018-Apr-14 1:45 PM,Fremantle,51,GWS Giants,82
-2018-Apr-14 2:10 PM,Brisbane Lions,17,Richmond,110
-2018-Apr-14 4:35 PM,Sydney,86,Western Bulldogs,79
-2018-Apr-14 7:25 PM,Carlton,30,North Melbourne,116
-2018-Apr-14 8:10 PM,Gold Coast,59,West Coast,139
-2018-Apr-15 1:10 PM,Port Adelaide,84,Essendon,106
-2018-Apr-15 3:20 PM,Melbourne,48,Hawthorn,115
-2018-Apr-15 4:40 PM,St Kilda,56,Geelong,103
-2018-Apr-20 7:50 PM,Adelaide,85,Sydney,75
-2018-Apr-21 1:45 PM,GWS Giants,73,St Kilda,73
-2018-Apr-21 4:35 PM,West Coast,79,Carlton,69
-2018-Apr-21 7:40 PM,Geelong,84,Port Adelaide,50
-2018-Apr-21 8:10 PM,Western Bulldogs,54,Fremantle,108
-2018-Apr-22 3:20 PM,Hawthorn,70,North Melbourne,98
-2018-Apr-22 4:40 PM,Gold Coast,76,Brisbane Lions,71
-2018-Apr-24 7:25 PM,Richmond,102,Melbourne,56
-2018-Apr-25 3:20 PM,Essendon,52,Collingwood,101
-2018-Apr-27 7:50 PM,Carlton,59,Western Bulldogs,80
-2018-Apr-28 1:45 PM,Sydney,86,Geelong,69
-2018-Apr-28 2:10 PM,Port Adelaide,102,North Melbourne,69
-2018-Apr-28 4:35 PM,Brisbane Lions,43,GWS Giants,77
-2018-Apr-28 7:25 PM,St Kilda,54,Hawthorn,89
-2018-Apr-28 7:40 PM,Gold Coast,62,Adelaide,110
-2018-Apr-29 1:10 PM,Melbourne,108,Essendon,72
-2018-Apr-29 3:20 PM,Richmond,113,Collingwood,70
-2018-Apr-29 4:40 PM,West Coast,89,Fremantle,81
-2018-May-4 7:50 PM,GWS Giants,32,Geelong,93
-2018-May-5 1:45 PM,Gold Coast,72,Western Bulldogs,81
-2018-May-5 2:10 PM,Hawthorn,90,Essendon,67
-2018-May-5 4:35 PM,Port Adelaide,60,West Coast,102
-2018-May-5 7:25 PM,North Melbourne,68,Sydney,66
-2018-May-5 7:40 PM,Carlton,70,Adelaide,125
-2018-May-6 1:10 PM,Fremantle,33,Richmond,110
-2018-May-6 3:20 PM,Melbourne,106,St Kilda,67
-2018-May-6 4:40 PM,Collingwood,121,Brisbane Lions,114
-2018-May-11 7:50 PM,Sydney,79,Hawthorn,71
-2018-May-12 1:45 PM,West Coast,86,GWS Giants,61
-2018-May-12 2:10 PM,Essendon,78,Carlton,91
-2018-May-12 4:35 PM,Melbourne,146,Gold Coast,77
-2018-May-12 5:10 PM,Adelaide,90,Port Adelaide,95
-2018-May-12 7:25 PM,Brisbane Lions,93,Western Bulldogs,107
-2018-May-12 8:10 PM,St Kilda,59,Fremantle,89
-2018-May-13 1:10 PM,Richmond,82,North Melbourne,72
-2018-May-13 3:20 PM,Geelong,66,Collingwood,45
-2018-May-18 7:50 PM,Western Bulldogs,26,Adelaide,63
-2018-May-19 1:45 PM,GWS Giants,69,North Melbourne,112
-2018-May-19 3:15 PM,Port Adelaide,82,Gold Coast,42
-2018-May-19 4:35 PM,Geelong,50,Essendon,84
-2018-May-19 7:25 PM,Fremantle,52,Sydney,111
-2018-May-19 7:25 PM,Collingwood,100,St Kilda,72
-2018-May-20 1:10 PM,Melbourne,159,Carlton,50
-2018-May-20 3:20 PM,Hawthorn,73,Brisbane Lions,129
-2018-May-20 4:40 PM,Richmond,83,West Coast,130
-2018-May-25 7:50 PM,Western Bulldogs,55,Collingwood,90
-2018-May-26 1:45 PM,St Kilda,77,Richmond,105
-2018-May-26 4:35 PM,Sydney,67,Brisbane Lions,49
-2018-May-26 7:25 PM,Carlton,45,Geelong,73
-2018-May-26 7:25 PM,Essendon,95,GWS Giants,60
-2018-May-27 1:10 PM,West Coast,75,Hawthorn,60
-2018-May-27 3:20 PM,Adelaide,55,Melbourne,146
-2018-May-27 4:40 PM,North Melbourne,86,Fremantle,58
-2018-Jun-1 7:50 PM,Carlton,61,Sydney,91
-2018-Jun-2 1:45 PM,Melbourne,100,Western Bulldogs,51
-2018-Jun-2 2:10 PM,Port Adelaide,61,Hawthorn,64
-2018-Jun-2 4:35 PM,Geelong,121,Gold Coast,36
-2018-Jun-2 7:25 PM,Richmond,114,Essendon,43
-2018-Jun-2 8:10 PM,St Kilda,88,West Coast,101
-2018-Jun-3 1:10 PM,Brisbane Lions,87,North Melbourne,141
-2018-Jun-3 3:20 PM,Fremantle,77,Collingwood,138
-2018-Jun-3 4:40 PM,GWS Giants,97,Adelaide,81
-2018-Jun-8 7:50 PM,Richmond,58,Port Adelaide,72
-2018-Jun-9 1:45 PM,North Melbourne,59,Geelong,96
-2018-Jun-9 4:35 PM,Gold Coast,26,GWS Giants,134
-2018-Jun-9 7:25 PM,Sydney,126,St Kilda,55
-2018-Jun-10 1:10 PM,Essendon,84,Brisbane Lions,62
-2018-Jun-10 4:40 PM,Adelaide,68,Fremantle,71
-2018-Jun-11 3:20 PM,Collingwood,133,Melbourne,91
-2018-Jun-14 7:50 PM,Western Bulldogs,75,Port Adelaide,132
-2018-Jun-15 7:50 PM,West Coast,57,Sydney,72
-2018-Jun-16 1:45 PM,Fremantle,103,Carlton,46
-2018-Jun-16 4:35 PM,St Kilda,80,Gold Coast,78
-2018-Jun-16 7:25 PM,Adelaide,32,Hawthorn,88
-2018-Jun-17 3:20 PM,Richmond,83,Geelong,65
-2018-Jun-21 8:10 PM,Essendon,80,West Coast,52
-2018-Jun-22 7:50 PM,Melbourne,65,Port Adelaide,75
-2018-Jun-23 1:45 PM,Gold Coast,43,Hawthorn,96
-2018-Jun-23 4:35 PM,GWS Giants,109,Brisbane Lions,82
-2018-Jun-23 7:25 PM,North Melbourne,77,Western Bulldogs,75
-2018-Jun-24 3:20 PM,Carlton,59,Collingwood,79
-2018-Jun-28 7:20 PM,Sydney,67,Richmond,93
-2018-Jun-29 7:50 PM,Geelong,101,Western Bulldogs,103
-2018-Jun-30 1:45 PM,Port Adelaide,90,Carlton,69
-2018-Jun-30 4:35 PM,West Coast,78,Adelaide,88
-2018-Jun-30 7:25 PM,Collingwood,99,Gold Coast,60
-2018-Jun-30 7:25 PM,Hawthorn,84,GWS Giants,95
-2018-Jul-1 1:10 PM,St Kilda,119,Melbourne,117
-2018-Jul-1 3:20 PM,North Melbourne,108,Essendon,125
-2018-Jul-1 4:40 PM,Brisbane Lions,119,Fremantle,64
-2018-Jul-5 7:20 PM,Geelong,71,Sydney,59
-2018-Jul-6 7:50 PM,Adelaide,56,Richmond,103
-2018-Jul-7 1:45 PM,Carlton,55,Brisbane Lions,120
-2018-Jul-7 4:35 PM,St Kilda,50,Port Adelaide,86
-2018-Jul-7 7:25 PM,Hawthorn,122,Western Bulldogs,59
-2018-Jul-7 7:40 PM,Fremantle,48,Melbourne,102
-2018-Jul-8 1:10 PM,Gold Coast,58,North Melbourne,95
-2018-Jul-8 3:20 PM,Collingwood,78,Essendon,62
-2018-Jul-8 4:40 PM,GWS Giants,75,West Coast,86
-2018-Jul-12 7:50 PM,Geelong,97,Adelaide,112
-2018-Jul-13 7:50 PM,Carlton,52,St Kilda,116
-2018-Jul-14 1:45 PM,Brisbane Lions,98,Hawthorn,65
-2018-Jul-14 4:35 PM,Western Bulldogs,69,Melbourne,119
-2018-Jul-14 7:25 PM,Essendon,95,Gold Coast,51
-2018-Jul-14 7:25 PM,Richmond,77,GWS Giants,79
-2018-Jul-15 1:10 PM,West Coast,102,Collingwood,67
-2018-Jul-15 3:20 PM,Sydney,104,North Melbourne,98
-2018-Jul-15 4:40 PM,Port Adelaide,50,Fremantle,59
-2018-Jul-20 7:50 PM,Richmond,111,St Kilda,57
-2018-Jul-21 1:45 PM,North Melbourne,64,Collingwood,130
-2018-Jul-21 2:10 PM,Gold Coast,88,Sydney,64
-2018-Jul-21 4:35 PM,Fremantle,70,Essendon,99
-2018-Jul-21 7:25 PM,Adelaide,93,Brisbane Lions,88
-2018-Jul-21 7:25 PM,Melbourne,98,Geelong,100
-2018-Jul-22 1:10 PM,Hawthorn,124,Carlton,52
-2018-Jul-22 3:20 PM,Western Bulldogs,46,West Coast,100
-2018-Jul-22 4:40 PM,GWS Giants,80,Port Adelaide,58
-2018-Jul-27 7:50 PM,Sydney,66,Essendon,109
-2018-Jul-28 1:45 PM,Collingwood,77,Richmond,105
-2018-Jul-28 2:10 PM,Brisbane Lions,78,Geelong,120
-2018-Jul-28 4:35 PM,St Kilda,61,GWS Giants,86
-2018-Jul-28 7:25 PM,Carlton,79,Gold Coast,44
-2018-Jul-28 7:40 PM,Melbourne,90,Adelaide,77
-2018-Jul-29 1:10 PM,West Coast,41,North Melbourne,81
-2018-Jul-29 3:20 PM,Port Adelaide,78,Western Bulldogs,34
-2018-Jul-29 4:40 PM,Hawthorn,112,Fremantle,53
-2018-Aug-3 7:50 PM,Geelong,82,Richmond,85
-2018-Aug-4 1:45 PM,Essendon,103,Hawthorn,107
-2018-Aug-4 2:10 PM,North Melbourne,107,Brisbane Lions,104
-2018-Aug-4 4:35 PM,Port Adelaide,93,Adelaide,96
-2018-Aug-4 7:25 PM,Western Bulldogs,103,St Kilda,68
-2018-Aug-4 7:25 PM,Collingwood,71,Sydney,73
-2018-Aug-5 1:10 PM,GWS Giants,151,Carlton,46
-2018-Aug-5 3:20 PM,Gold Coast,47,Melbourne,143
-2018-Aug-5 4:40 PM,Fremantle,84,West Coast,142
-2018-Aug-10 7:50 PM,St Kilda,79,Essendon,122
-2018-Aug-11 1:45 PM,Geelong,60,Hawthorn,71
-2018-Aug-11 2:10 PM,Richmond,125,Gold Coast,51
-2018-Aug-11 4:35 PM,West Coast,62,Port Adelaide,58
-2018-Aug-11 7:25 PM,Brisbane Lions,73,Collingwood,104
-2018-Aug-11 7:25 PM,Adelaide,92,GWS Giants,106
-2018-Aug-12 1:10 PM,Western Bulldogs,92,North Melbourne,85
-2018-Aug-12 3:20 PM,Sydney,87,Melbourne,78
-2018-Aug-12 4:40 PM,Carlton,72,Fremantle,101
-2018-Aug-17 7:50 PM,Essendon,73,Richmond,81
-2018-Aug-18 1:45 PM,Port Adelaide,64,Collingwood,115
-2018-Aug-18 2:10 PM,Fremantle,25,Geelong,158
-2018-Aug-18 4:35 PM,Sydney,80,GWS Giants,60
-2018-Aug-18 7:25 PM,Brisbane Lions,78,Gold Coast,74
-2018-Aug-18 7:25 PM,Hawthorn,80,St Kilda,76
-2018-Aug-19 1:10 PM,Western Bulldogs,66,Carlton,49
-2018-Aug-19 3:20 PM,Melbourne,108,West Coast,91
-2018-Aug-19 4:40 PM,North Melbourne,77,Adelaide,86
-2018-Aug-24 7:50 PM,Essendon,111,Port Adelaide,89
-2018-Aug-25 1:45 PM,Gold Coast,40,Geelong,142
-2018-Aug-25 2:10 PM,Western Bulldogs,95,Richmond,98
-2018-Aug-25 4:35 PM,Collingwood,76,Fremantle,67
-2018-Aug-25 7:25 PM,Hawthorn,83,Sydney,74
-2018-Aug-25 7:25 PM,Adelaide,165,Carlton,61
-2018-Aug-26 1:10 PM,West Coast,98,Brisbane Lions,72
-2018-Aug-26 3:20 PM,GWS Giants,57,Melbourne,102
-2018-Aug-26 4:40 PM,North Melbourne,117,St Kilda,94
+Date,AwayTeam,AwayScore,HomeTeam,HomeScore,IsNeutralSite
+2018-Mar-22 7:25 PM,Carlton,95,Richmond,121,FALSE
+2018-Mar-23 7:50 PM,Adelaide,87,Essendon,99,FALSE
+2018-Mar-24 3:35 PM,Brisbane Lions,82,St Kilda,107,FALSE
+2018-Mar-24 4:35 PM,Fremantle,60,Port Adelaide,110,FALSE
+2018-Mar-24 7:25 PM,North Melbourne,39,Gold Coast,55,FALSE
+2018-Mar-24 7:25 PM,Collingwood,67,Hawthorn,101,FALSE
+2018-Mar-25 1:10 PM,Western Bulldogs,51,GWS Giants,133,FALSE
+2018-Mar-25 3:20 PM,Geelong,97,Melbourne,94,FALSE
+2018-Mar-25 7:20 PM,Sydney,115,West Coast,86,FALSE
+2018-Mar-29 7:50 PM,Richmond,82,Adelaide,118,FALSE
+2018-Mar-30 4:20 PM,St Kilda,43,North Melbourne,95,FALSE
+2018-Mar-31 1:45 PM,Gold Coast,101,Carlton,67,FALSE
+2018-Mar-31 4:35 PM,GWS Giants,95,Collingwood,79,FALSE
+2018-Mar-31 7:25 PM,Melbourne,100,Brisbane Lions,74,FALSE
+2018-Mar-31 8:10 PM,Essendon,90,Fremantle,106,FALSE
+2018-Apr-1 3:20 PM,West Coast,121,Western Bulldogs,70,FALSE
+2018-Apr-1 4:40 PM,Port Adelaide,94,Sydney,71,FALSE
+2018-Apr-2 3:20 PM,Hawthorn,118,Geelong,117,FALSE
+2018-Apr-6 7:50 PM,Collingwood,100,Carlton,76,FALSE
+2018-Apr-7 1:45 PM,Brisbane Lions,92,Port Adelaide,97,FALSE
+2018-Apr-7 2:10 PM,North Melbourne,86,Melbourne,123,FALSE
+2018-Apr-7 4:35 PM,Fremantle,96,Gold Coast,68,FALSE
+2018-Apr-7 7:25 PM,GWS Giants,87,Sydney,103,FALSE
+2018-Apr-7 7:25 PM,Adelaide,104,St Kilda,55,FALSE
+2018-Apr-8 1:10 PM,Hawthorn,89,Richmond,102,FALSE
+2018-Apr-8 3:20 PM,Essendon,83,Western Bulldogs,104,FALSE
+2018-Apr-8 4:40 PM,Geelong,80,West Coast,95,FALSE
+2018-Apr-13 7:50 PM,Collingwood,106,Adelaide,58,FALSE
+2018-Apr-14 1:45 PM,Fremantle,51,GWS Giants,82,FALSE
+2018-Apr-14 2:10 PM,Brisbane Lions,17,Richmond,110,FALSE
+2018-Apr-14 4:35 PM,Sydney,86,Western Bulldogs,79,FALSE
+2018-Apr-14 7:25 PM,Carlton,30,North Melbourne,116,FALSE
+2018-Apr-14 8:10 PM,Gold Coast,59,West Coast,139,FALSE
+2018-Apr-15 1:10 PM,Port Adelaide,84,Essendon,106,FALSE
+2018-Apr-15 3:20 PM,Melbourne,48,Hawthorn,115,FALSE
+2018-Apr-15 4:40 PM,St Kilda,56,Geelong,103,FALSE
+2018-Apr-20 7:50 PM,Adelaide,85,Sydney,75,FALSE
+2018-Apr-21 1:45 PM,GWS Giants,73,St Kilda,73,FALSE
+2018-Apr-21 4:35 PM,West Coast,79,Carlton,69,FALSE
+2018-Apr-21 7:40 PM,Geelong,84,Port Adelaide,50,FALSE
+2018-Apr-21 8:10 PM,Western Bulldogs,54,Fremantle,108,FALSE
+2018-Apr-22 3:20 PM,Hawthorn,70,North Melbourne,98,FALSE
+2018-Apr-22 4:40 PM,Gold Coast,76,Brisbane Lions,71,FALSE
+2018-Apr-24 7:25 PM,Richmond,102,Melbourne,56,FALSE
+2018-Apr-25 3:20 PM,Essendon,52,Collingwood,101,FALSE
+2018-Apr-27 7:50 PM,Carlton,59,Western Bulldogs,80,FALSE
+2018-Apr-28 1:45 PM,Sydney,86,Geelong,69,FALSE
+2018-Apr-28 2:10 PM,Port Adelaide,102,North Melbourne,69,FALSE
+2018-Apr-28 4:35 PM,Brisbane Lions,43,GWS Giants,77,FALSE
+2018-Apr-28 7:25 PM,St Kilda,54,Hawthorn,89,FALSE
+2018-Apr-28 7:40 PM,Gold Coast,62,Adelaide,110,FALSE
+2018-Apr-29 1:10 PM,Melbourne,108,Essendon,72,FALSE
+2018-Apr-29 3:20 PM,Richmond,113,Collingwood,70,FALSE
+2018-Apr-29 4:40 PM,West Coast,89,Fremantle,81,FALSE
+2018-May-4 7:50 PM,GWS Giants,32,Geelong,93,FALSE
+2018-May-5 1:45 PM,Gold Coast,72,Western Bulldogs,81,FALSE
+2018-May-5 2:10 PM,Hawthorn,90,Essendon,67,FALSE
+2018-May-5 4:35 PM,Port Adelaide,60,West Coast,102,FALSE
+2018-May-5 7:25 PM,North Melbourne,68,Sydney,66,FALSE
+2018-May-5 7:40 PM,Carlton,70,Adelaide,125,FALSE
+2018-May-6 1:10 PM,Fremantle,33,Richmond,110,FALSE
+2018-May-6 3:20 PM,Melbourne,106,St Kilda,67,FALSE
+2018-May-6 4:40 PM,Collingwood,121,Brisbane Lions,114,FALSE
+2018-May-11 7:50 PM,Sydney,79,Hawthorn,71,FALSE
+2018-May-12 1:45 PM,West Coast,86,GWS Giants,61,FALSE
+2018-May-12 2:10 PM,Essendon,78,Carlton,91,FALSE
+2018-May-12 4:35 PM,Melbourne,146,Gold Coast,77,FALSE
+2018-May-12 5:10 PM,Adelaide,90,Port Adelaide,95,FALSE
+2018-May-12 7:25 PM,Brisbane Lions,93,Western Bulldogs,107,FALSE
+2018-May-12 8:10 PM,St Kilda,59,Fremantle,89,FALSE
+2018-May-13 1:10 PM,Richmond,82,North Melbourne,72,FALSE
+2018-May-13 3:20 PM,Geelong,66,Collingwood,45,FALSE
+2018-May-18 7:50 PM,Western Bulldogs,26,Adelaide,63,FALSE
+2018-May-19 1:45 PM,GWS Giants,69,North Melbourne,112,FALSE
+2018-May-19 3:15 PM,Port Adelaide,82,Gold Coast,42,FALSE
+2018-May-19 4:35 PM,Geelong,50,Essendon,84,FALSE
+2018-May-19 7:25 PM,Fremantle,52,Sydney,111,FALSE
+2018-May-19 7:25 PM,Collingwood,100,St Kilda,72,FALSE
+2018-May-20 1:10 PM,Melbourne,159,Carlton,50,FALSE
+2018-May-20 3:20 PM,Hawthorn,73,Brisbane Lions,129,FALSE
+2018-May-20 4:40 PM,Richmond,83,West Coast,130,FALSE
+2018-May-25 7:50 PM,Western Bulldogs,55,Collingwood,90,FALSE
+2018-May-26 1:45 PM,St Kilda,77,Richmond,105,FALSE
+2018-May-26 4:35 PM,Sydney,67,Brisbane Lions,49,FALSE
+2018-May-26 7:25 PM,Carlton,45,Geelong,73,FALSE
+2018-May-26 7:25 PM,Essendon,95,GWS Giants,60,FALSE
+2018-May-27 1:10 PM,West Coast,75,Hawthorn,60,FALSE
+2018-May-27 3:20 PM,Adelaide,55,Melbourne,146,FALSE
+2018-May-27 4:40 PM,North Melbourne,86,Fremantle,58,FALSE
+2018-Jun-1 7:50 PM,Carlton,61,Sydney,91,FALSE
+2018-Jun-2 1:45 PM,Melbourne,100,Western Bulldogs,51,FALSE
+2018-Jun-2 2:10 PM,Port Adelaide,61,Hawthorn,64,FALSE
+2018-Jun-2 4:35 PM,Geelong,121,Gold Coast,36,FALSE
+2018-Jun-2 7:25 PM,Richmond,114,Essendon,43,FALSE
+2018-Jun-2 8:10 PM,St Kilda,88,West Coast,101,FALSE
+2018-Jun-3 1:10 PM,Brisbane Lions,87,North Melbourne,141,FALSE
+2018-Jun-3 3:20 PM,Fremantle,77,Collingwood,138,FALSE
+2018-Jun-3 4:40 PM,GWS Giants,97,Adelaide,81,FALSE
+2018-Jun-8 7:50 PM,Richmond,58,Port Adelaide,72,FALSE
+2018-Jun-9 1:45 PM,North Melbourne,59,Geelong,96,FALSE
+2018-Jun-9 4:35 PM,Gold Coast,26,GWS Giants,134,FALSE
+2018-Jun-9 7:25 PM,Sydney,126,St Kilda,55,FALSE
+2018-Jun-10 1:10 PM,Essendon,84,Brisbane Lions,62,FALSE
+2018-Jun-10 4:40 PM,Adelaide,68,Fremantle,71,FALSE
+2018-Jun-11 3:20 PM,Collingwood,133,Melbourne,91,FALSE
+2018-Jun-14 7:50 PM,Western Bulldogs,75,Port Adelaide,132,FALSE
+2018-Jun-15 7:50 PM,West Coast,57,Sydney,72,FALSE
+2018-Jun-16 1:45 PM,Fremantle,103,Carlton,46,FALSE
+2018-Jun-16 4:35 PM,St Kilda,80,Gold Coast,78,FALSE
+2018-Jun-16 7:25 PM,Adelaide,32,Hawthorn,88,FALSE
+2018-Jun-17 3:20 PM,Richmond,83,Geelong,65,FALSE
+2018-Jun-21 8:10 PM,Essendon,80,West Coast,52,FALSE
+2018-Jun-22 7:50 PM,Melbourne,65,Port Adelaide,75,FALSE
+2018-Jun-23 1:45 PM,Gold Coast,43,Hawthorn,96,FALSE
+2018-Jun-23 4:35 PM,GWS Giants,109,Brisbane Lions,82,FALSE
+2018-Jun-23 7:25 PM,North Melbourne,77,Western Bulldogs,75,FALSE
+2018-Jun-24 3:20 PM,Carlton,59,Collingwood,79,FALSE
+2018-Jun-28 7:20 PM,Sydney,67,Richmond,93,FALSE
+2018-Jun-29 7:50 PM,Geelong,101,Western Bulldogs,103,FALSE
+2018-Jun-30 1:45 PM,Port Adelaide,90,Carlton,69,FALSE
+2018-Jun-30 4:35 PM,West Coast,78,Adelaide,88,FALSE
+2018-Jun-30 7:25 PM,Collingwood,99,Gold Coast,60,FALSE
+2018-Jun-30 7:25 PM,Hawthorn,84,GWS Giants,95,FALSE
+2018-Jul-1 1:10 PM,St Kilda,119,Melbourne,117,FALSE
+2018-Jul-1 3:20 PM,North Melbourne,108,Essendon,125,FALSE
+2018-Jul-1 4:40 PM,Brisbane Lions,119,Fremantle,64,FALSE
+2018-Jul-5 7:20 PM,Geelong,71,Sydney,59,FALSE
+2018-Jul-6 7:50 PM,Adelaide,56,Richmond,103,FALSE
+2018-Jul-7 1:45 PM,Carlton,55,Brisbane Lions,120,FALSE
+2018-Jul-7 4:35 PM,St Kilda,50,Port Adelaide,86,FALSE
+2018-Jul-7 7:25 PM,Hawthorn,122,Western Bulldogs,59,FALSE
+2018-Jul-7 7:40 PM,Fremantle,48,Melbourne,102,FALSE
+2018-Jul-8 1:10 PM,Gold Coast,58,North Melbourne,95,FALSE
+2018-Jul-8 3:20 PM,Collingwood,78,Essendon,62,FALSE
+2018-Jul-8 4:40 PM,GWS Giants,75,West Coast,86,FALSE
+2018-Jul-12 7:50 PM,Geelong,97,Adelaide,112,FALSE
+2018-Jul-13 7:50 PM,Carlton,52,St Kilda,116,FALSE
+2018-Jul-14 1:45 PM,Brisbane Lions,98,Hawthorn,65,FALSE
+2018-Jul-14 4:35 PM,Western Bulldogs,69,Melbourne,119,FALSE
+2018-Jul-14 7:25 PM,Essendon,95,Gold Coast,51,FALSE
+2018-Jul-14 7:25 PM,Richmond,77,GWS Giants,79,FALSE
+2018-Jul-15 1:10 PM,West Coast,102,Collingwood,67,FALSE
+2018-Jul-15 3:20 PM,Sydney,104,North Melbourne,98,FALSE
+2018-Jul-15 4:40 PM,Port Adelaide,50,Fremantle,59,FALSE
+2018-Jul-20 7:50 PM,Richmond,111,St Kilda,57,FALSE
+2018-Jul-21 1:45 PM,North Melbourne,64,Collingwood,130,FALSE
+2018-Jul-21 2:10 PM,Gold Coast,88,Sydney,64,FALSE
+2018-Jul-21 4:35 PM,Fremantle,70,Essendon,99,FALSE
+2018-Jul-21 7:25 PM,Adelaide,93,Brisbane Lions,88,FALSE
+2018-Jul-21 7:25 PM,Melbourne,98,Geelong,100,FALSE
+2018-Jul-22 1:10 PM,Hawthorn,124,Carlton,52,FALSE
+2018-Jul-22 3:20 PM,Western Bulldogs,46,West Coast,100,FALSE
+2018-Jul-22 4:40 PM,GWS Giants,80,Port Adelaide,58,FALSE
+2018-Jul-27 7:50 PM,Sydney,66,Essendon,109,FALSE
+2018-Jul-28 1:45 PM,Collingwood,77,Richmond,105,FALSE
+2018-Jul-28 2:10 PM,Brisbane Lions,78,Geelong,120,FALSE
+2018-Jul-28 4:35 PM,St Kilda,61,GWS Giants,86,FALSE
+2018-Jul-28 7:25 PM,Carlton,79,Gold Coast,44,FALSE
+2018-Jul-28 7:40 PM,Melbourne,90,Adelaide,77,FALSE
+2018-Jul-29 1:10 PM,West Coast,41,North Melbourne,81,FALSE
+2018-Jul-29 3:20 PM,Port Adelaide,78,Western Bulldogs,34,FALSE
+2018-Jul-29 4:40 PM,Hawthorn,112,Fremantle,53,FALSE
+2018-Aug-3 7:50 PM,Geelong,82,Richmond,85,FALSE
+2018-Aug-4 1:45 PM,Essendon,103,Hawthorn,107,FALSE
+2018-Aug-4 2:10 PM,North Melbourne,107,Brisbane Lions,104,FALSE
+2018-Aug-4 4:35 PM,Port Adelaide,93,Adelaide,96,FALSE
+2018-Aug-4 7:25 PM,Western Bulldogs,103,St Kilda,68,FALSE
+2018-Aug-4 7:25 PM,Collingwood,71,Sydney,73,FALSE
+2018-Aug-5 1:10 PM,GWS Giants,151,Carlton,46,FALSE
+2018-Aug-5 3:20 PM,Gold Coast,47,Melbourne,143,FALSE
+2018-Aug-5 4:40 PM,Fremantle,84,West Coast,142,FALSE
+2018-Aug-10 7:50 PM,St Kilda,79,Essendon,122,FALSE
+2018-Aug-11 1:45 PM,Geelong,60,Hawthorn,71,FALSE
+2018-Aug-11 2:10 PM,Richmond,125,Gold Coast,51,FALSE
+2018-Aug-11 4:35 PM,West Coast,62,Port Adelaide,58,FALSE
+2018-Aug-11 7:25 PM,Brisbane Lions,73,Collingwood,104,FALSE
+2018-Aug-11 7:25 PM,Adelaide,92,GWS Giants,106,FALSE
+2018-Aug-12 1:10 PM,Western Bulldogs,92,North Melbourne,85,FALSE
+2018-Aug-12 3:20 PM,Sydney,87,Melbourne,78,FALSE
+2018-Aug-12 4:40 PM,Carlton,72,Fremantle,101,FALSE
+2018-Aug-17 7:50 PM,Essendon,73,Richmond,81,FALSE
+2018-Aug-18 1:45 PM,Port Adelaide,64,Collingwood,115,FALSE
+2018-Aug-18 2:10 PM,Fremantle,25,Geelong,158,FALSE
+2018-Aug-18 4:35 PM,Sydney,80,GWS Giants,60,FALSE
+2018-Aug-18 7:25 PM,Brisbane Lions,78,Gold Coast,74,FALSE
+2018-Aug-18 7:25 PM,Hawthorn,80,St Kilda,76,FALSE
+2018-Aug-19 1:10 PM,Western Bulldogs,66,Carlton,49,FALSE
+2018-Aug-19 3:20 PM,Melbourne,108,West Coast,91,FALSE
+2018-Aug-19 4:40 PM,North Melbourne,77,Adelaide,86,FALSE
+2018-Aug-24 7:50 PM,Essendon,111,Port Adelaide,89,FALSE
+2018-Aug-25 1:45 PM,Gold Coast,40,Geelong,142,FALSE
+2018-Aug-25 2:10 PM,Western Bulldogs,95,Richmond,98,FALSE
+2018-Aug-25 4:35 PM,Collingwood,76,Fremantle,67,FALSE
+2018-Aug-25 7:25 PM,Hawthorn,83,Sydney,74,FALSE
+2018-Aug-25 7:25 PM,Adelaide,165,Carlton,61,FALSE
+2018-Aug-26 1:10 PM,West Coast,98,Brisbane Lions,72,FALSE
+2018-Aug-26 3:20 PM,GWS Giants,57,Melbourne,102,FALSE
+2018-Aug-26 4:40 PM,North Melbourne,117,St Kilda,94,FALSE

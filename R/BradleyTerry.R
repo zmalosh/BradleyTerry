@@ -18,7 +18,7 @@
 #'
 #' @export
 
-bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores){
+bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
 	source('R/SetupGames.R')
 
 	get_team_strengths <- function(games){
@@ -41,18 +41,18 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 		g <- games %>%
 			mutate(HomeStrength = teamStrengths[as.character(HomeTeamId)],
 				   AwayStrength = teamStrengths[as.character(AwayTeamId)],
-				   LogisticVal = logisticFunction(homeFieldAdvantage, HomeStrength, AwayStrength),
+				   LogisticVal = logisticFunction(homeFieldAdvantage, HomeStrength, AwayStrength, IsNeutralSite),
 				   Result = ifelse(GameResult == 1, LogisticVal, 1 - LogisticVal)
 			)
 		logLikelihood <- sum(log(g$Result))
 		return(-1 * logLikelihood)
 	}
 
-	logisticFunction <- function(homeFieldAdvantage, homeTeamStrength, awayTeamStrength){
-		return(1 / (1 + (exp(-(homeFieldAdvantage + homeTeamStrength - awayTeamStrength)))))
+	logisticFunction <- function(homeFieldAdvantage, homeTeamStrength, awayTeamStrength, isNeutralSite){
+		return(1 / (1 + (exp(-(ifelse(isNeutralSite, 0, homeFieldAdvantage) + homeTeamStrength - awayTeamStrength)))))
 	}
 
-	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores)
+	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite)
 	strengths <- get_team_strengths(g)
 	homeFieldAdvantage <- strengths['HomeFieldAdvantage']
 	teamStrengths <- strengths[names(strengths) != 'HomeFieldAdvantage']
