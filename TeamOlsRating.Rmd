@@ -94,7 +94,8 @@ g <- setup_games(gameIds = games$GameId,
 				 homeTeamIds = games$HomeTeam,
 				 awayTeamIds = games$AwayTeam,
 				 homeScores = games$HomeScore,
-				 awayScores = games$AwayScore)
+				 awayScores = games$AwayScore,
+				 isNeutralSite = FALSE)
 ```
 
 # Find Coefficients
