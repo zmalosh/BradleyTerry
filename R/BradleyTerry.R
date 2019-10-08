@@ -19,8 +19,6 @@
 #' @export
 
 bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
-	source('R/SetupGames.R')
-
 	get_team_strengths <- function(games){
 		finalGames <- games %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 		teamIds <- as.character(sort(unique(c(finalGames$HomeTeamId, finalGames$AwayTeamId))))
