@@ -4,7 +4,8 @@
 \alias{team_ols_rating}
 \title{Creates a Team OLS Optimized Rating Prediction Model}
 \usage{
-team_ols_rating(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores)
+team_ols_rating(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores,
+  isNeutralSite = FALSE)
 }
 \arguments{
 \item{gameIds}{}
