@@ -104,7 +104,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 	}
 
 	result <- list('teamStrengths' = teamStrengths,
-				   'homeFieldStrength' = teamStrengths[length(teamStrengths)],
+				   'homeFieldStrength' = homeFieldAdvantage,
 				   'coefLogisticResult' = coefLogisticResult,
 				   'coefIntercept' = coefIntercept,
 				   'model' = m,
