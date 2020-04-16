@@ -4,8 +4,14 @@
 \alias{bradley_terry}
 \title{Creates a Bradley-Terry Prediction Model}
 \usage{
-bradley_terry(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores,
-  isNeutralSite = FALSE)
+bradley_terry(
+  gameIds,
+  homeTeamIds,
+  awayTeamIds,
+  homeScores,
+  awayScores,
+  isNeutralSite = FALSE
+)
 }
 \arguments{
 \item{gameIds}{}
