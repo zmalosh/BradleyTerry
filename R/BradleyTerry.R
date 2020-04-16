@@ -51,6 +51,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 	}
 
 	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite)
+	g <- g %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 	strengths <- get_team_strengths(g)
 	homeFieldAdvantage <- strengths['HomeFieldAdvantage']
 	teamStrengths <- strengths[names(strengths) != 'HomeFieldAdvantage']
