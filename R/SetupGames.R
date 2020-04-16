@@ -1,5 +1,5 @@
 #' @export
-setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite){
+setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite, replaceDraws = TRUE){
 	g <- data.frame(GameId = gameIds,
 					HomeTeamId = homeTeamIds,
 					AwayTeamId = awayTeamIds,
@@ -12,21 +12,23 @@ setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScore
 	g <- g %>% filter(!((is.na(HomeScore) & !is.na(AwayScore)) | (!is.na(HomeScore) & is.na(AwayScore))))
 
 	# MAKE DRAWS INTO A 1-GOAL WIN FOR HOME AND A 1-GOAL WIN FOR AWAY (2 REPLACEMENT GAMES)
-	draws <- g %>% filter(!is.na(AwayScore) & !is.na(HomeScore) & AwayScore == HomeScore)
-	drawHomeWinReplacement <- data.frame(GameId = draws$GameId,
-										 HomeTeamId = draws$HomeTeamId,
-										 AwayTeamId = draws$AwayTeamId,
-										 HomeScore = draws$HomeScore + 0.25,
-										 AwayScore = draws$AwayScore,
-										 IsNeutralSite = draws$IsNeutralSite)
-	drawAwayWinReplacement <- data.frame(GameId = draws$GameId,
-										 HomeTeamId = draws$HomeTeamId,
-										 AwayTeamId = draws$AwayTeamId,
-										 HomeScore = draws$HomeScore,
-										 AwayScore = draws$AwayScore + 0.25,
-										 IsNeutralSite = draws$IsNeutralSite)
-	g <- g %>% filter(is.na(AwayScore) | is.na(HomeScore) | AwayScore != HomeScore)
-	g <- rbind(g, drawHomeWinReplacement, drawAwayWinReplacement)
+	if(replaceDraws) {
+		draws <- g %>% filter(!is.na(AwayScore) & !is.na(HomeScore) & AwayScore == HomeScore)
+		drawHomeWinReplacement <- data.frame(GameId = draws$GameId,
+											 HomeTeamId = draws$HomeTeamId,
+											 AwayTeamId = draws$AwayTeamId,
+											 HomeScore = draws$HomeScore + 0.25,
+											 AwayScore = draws$AwayScore,
+											 IsNeutralSite = draws$IsNeutralSite)
+		drawAwayWinReplacement <- data.frame(GameId = draws$GameId,
+											 HomeTeamId = draws$HomeTeamId,
+											 AwayTeamId = draws$AwayTeamId,
+											 HomeScore = draws$HomeScore,
+											 AwayScore = draws$AwayScore + 0.25,
+											 IsNeutralSite = draws$IsNeutralSite)
+		g <- g %>% filter(is.na(AwayScore) | is.na(HomeScore) | AwayScore != HomeScore)
+		g <- rbind(g, drawHomeWinReplacement, drawAwayWinReplacement)
+	}
 
 	g <- g %>%
 		mutate(HomeMarginOfVictory = HomeScore - AwayScore,
