@@ -16,14 +16,14 @@ setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScore
 	drawHomeWinReplacement <- data.frame(GameId = draws$GameId,
 										 HomeTeamId = draws$HomeTeamId,
 										 AwayTeamId = draws$AwayTeamId,
-										 HomeScore = draws$HomeScore + 1,
+										 HomeScore = draws$HomeScore + 0.25,
 										 AwayScore = draws$AwayScore,
 										 IsNeutralSite = draws$IsNeutralSite)
 	drawAwayWinReplacement <- data.frame(GameId = draws$GameId,
 										 HomeTeamId = draws$HomeTeamId,
 										 AwayTeamId = draws$AwayTeamId,
 										 HomeScore = draws$HomeScore,
-										 AwayScore = draws$AwayScore + 1,
+										 AwayScore = draws$AwayScore + 0.25,
 										 IsNeutralSite = draws$IsNeutralSite)
 	g <- g %>% filter(is.na(AwayScore) | is.na(HomeScore) | AwayScore != HomeScore)
 	g <- rbind(g, drawHomeWinReplacement, drawAwayWinReplacement)
