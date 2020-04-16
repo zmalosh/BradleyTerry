@@ -50,7 +50,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 		return(1 / (1 + (exp(-(ifelse(isNeutralSite, 0, homeFieldAdvantage) + homeTeamStrength - awayTeamStrength)))))
 	}
 
-	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite)
+	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite, replaceDrawValue = 1)
 	g <- g %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 	strengths <- get_team_strengths(g)
 	homeFieldAdvantage <- strengths['HomeFieldAdvantage']
