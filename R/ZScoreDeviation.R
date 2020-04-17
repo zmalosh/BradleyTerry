@@ -71,6 +71,7 @@ zScoreDev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores,
 	}
 
 	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite, replaceDrawValue = NA)
+	g <- g %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 
 	avgHomeScore <- mean(g$HomeScore)
 	avgAwayScore <- mean(g$AwayScore)
