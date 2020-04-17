@@ -85,10 +85,11 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		homeStrength <- teamStrengths[as.character(homeTeamId)]
 		awayStrength <- teamStrengths[as.character(awayTeamId)]
-		homeFieldAdvantage <- strengths['HomeFieldAdvantage']
-		return(predict(homeStrength, awayStrength, homeFieldAdvantage, isNeutralSite, homeSpread))
+		return(predict(homeStrength, awayStrength, isNeutralSite, homeSpread))
 	}
-	predict <- function(homeStrength, awayStrength, homeFieldAdvantage, isNeutralSite = FALSE, homeSpread = 0){
+	predict <- function(homeStrength, awayStrength, isNeutralSite = FALSE, homeSpread = 0){
+		homeFieldAdvantage <- strengths['HomeFieldAdvantage']
+
 		homeGoalsFavored <- -1 * homeSpread
 		awayGoalsFavored <- -1 * homeGoalsFavored
 		logisticResult <- logisticFunction(homeFieldAdvantage, homeStrength, awayStrength, isNeutralSite)
