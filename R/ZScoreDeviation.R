@@ -17,34 +17,6 @@
 #' @examples
 #'
 #' @export
-get_api_football_json_from_url <- function(url){
-	key <- '71c766b005msh1ddcb3052482d45p14fb6cjsnaf3ff7900508'
-	headers <- c(key)
-	names(headers) <- 'X-RapidAPI-Key'
-
-	response <- httr::GET(url, add_headers(.headers = headers))
-	rawJson <- httr::content(response, as = 'text')
-	json <- jsonlite::fromJSON(rawJson)$api
-	return (json)
-}
-
-get_games_by_league_id <- function(leagueId){
-	url <- paste0('https://api-football-v1.p.rapidapi.com/v2/fixtures/league/', leagueId)
-	json <- get_api_football_json_from_url(url)
-	games <- json$fixtures
-	return (games)
-}
-
-leagueId <- 785
-games <- get_games_by_league_id(leagueId)
-games <- games %>% filter(!is.na(goalsHomeTeam) & !is.na(goalsAwayTeam))
-
-gameIds <- games$fixture_id
-homeTeamIds <- games$homeTeam$team_name
-awayTeamIds <- games$awayTeam$team_name
-homeScores <- games$goalsHomeTeam
-awayScores <- games$goalsAwayTeam
-isNeutralSite <- F
 
 zsd <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
 	get_team_strengths <- function(games, avgHomeScore, avgAwayScore, sdHomeScore, sdAwayScore){
