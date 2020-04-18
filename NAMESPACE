@@ -2,6 +2,6 @@
 
 export(bradley_terry)
 export(game_scores_std_dev)
-export(powerRank)
+export(power_rank)
 export(team_ols_rating)
-export(zScoreDev)
+export(z_score_dev)

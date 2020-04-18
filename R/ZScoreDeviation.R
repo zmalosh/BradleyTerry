@@ -18,7 +18,7 @@
 #'
 #' @export
 
-zScoreDev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
+z_score_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
 	get_team_strengths <- function(games, avgHomeScore, avgAwayScore, sdHomeScore, sdAwayScore){
 		finalGames <- games %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 		teamIds <- c(homeTeamIds, awayTeamIds) %>% unique() %>% sort()

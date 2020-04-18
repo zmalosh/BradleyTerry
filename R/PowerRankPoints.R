@@ -18,7 +18,7 @@
 #'
 #' @export
 
-powerRank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
+power_rank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite = FALSE){
 	get_team_ratings <- function(games, avgScore){
 		finalGames <- games %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
 		teamIds <- c(homeTeamIds, awayTeamIds) %>% unique() %>% sort()
