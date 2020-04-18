@@ -1,4 +1,3 @@
-#' @export
 setup_games <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite, replaceDrawValue = NA){
 	g <- data.frame(GameId = gameIds,
 					HomeTeamId = homeTeamIds,
