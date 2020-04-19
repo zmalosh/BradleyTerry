@@ -108,7 +108,15 @@ power_rank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores
 		homeDefRating = teamRatings[paste0(as.character(homeTeamId), '_Def')]
 		awayDefRating = teamRatings[paste0(as.character(awayTeamId), '_Def')]
 
-		return(predict(homeOffRating, homeDefRating, awayOffRating, awayDefRating, isNeutralSite, homeSpread))
+		p <- predict(homeOffRating, homeDefRating, awayOffRating, awayDefRating, isNeutralSite, homeSpread)
+		p <- data.frame(HomeTeamId = homeTeamId,
+						AwayTeamId = awayTeamId,
+						IsNeutralSite = p$IsNeutralSite,
+						HomeSpread = p$HomeSpread,
+						HomeWinPct = p$HomeWinPct,
+						DrawWinPct = p$DrawWinPct,
+						AwayWinPct = p$AwayWinPct)
+		return(p)
 	}
 	predict <- function(homeOffRating, homeDefRating, awayOffRating, awayDefRating, isNeutralSite = FALSE, homeSpread = 0){
 		homeAdvantage <- ratings['HomeAdvantage']
@@ -125,7 +133,8 @@ power_rank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores
 		homeWinPct <- 1 - pnorm(homeGoalsFavored + ifelse(homeGoalsFavored%%1==0, 0.5, 0), mean = predictedHomeSpread, sd = stdDev)
 		awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
 		drawWinPct <- 1 - (homeWinPct + awayWinPct)
-		result <- list(HomeSpread = homeSpread,
+		result <- list(IsNeutralSite = isNeutralSite,
+					   HomeSpread = homeSpread,
 					   HomeWinPct = homeWinPct,
 					   DrawWinPct = drawWinPct,
 					   AwayWinPct = awayWinPct)
