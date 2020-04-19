@@ -66,7 +66,7 @@ ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySc
 		return(result)
 	}
 
-	result <- list(base.models = model.base, predictByIds = predictByIds)
+	result <- list('base.models' = model.base, 'predictByIds' = predictByIds)
 
 	return(result)
 }
