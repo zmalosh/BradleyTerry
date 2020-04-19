@@ -18,7 +18,6 @@
 #'
 #' @export
 
-
 ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite){
 	g <- setup_games(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores, isNeutralSite)
 
@@ -35,7 +34,6 @@ ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySc
 						   'PowerRankPoints')
 
 	homeSpread <- 0
-
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		pred.bt <- model.bt$predictGameByIds(g$HomeTeamId, g$AwayTeamId, isNeutralSite, homeSpread = homeSpread)
