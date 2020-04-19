@@ -63,7 +63,8 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 			select(TeamId, PFA, PAA)
 
 		averages <- homeAverages %>%
-			inner_join(awayAverages, by = 'TeamId')
+			inner_join(awayAverages, by = 'TeamId') %>%
+			arrange(TeamId)
 
 		return(averages)
 	}
@@ -118,23 +119,25 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 							 LogLoss = -1 * mean(g$LogError))
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
-		homeScoreAvgs <- scoreAvgs %>% filter(TeamId == homeTeamId)
-		awayScoreAvgs <- scoreAvgs %>% filter(TeamId == awayTeamId)
-		pfh <- ifelse(isNeutralSite, homeScoreAvgs$PFA[1], homeScoreAvgs$PFH[1])
-		pah <- ifelse(isNeutralSite, homeScoreAvgs$PAA[1], homeScoreAvgs$PAH[1])
-		pfa <- awayScoreAvgs$PFA[1]
-		paa <- awayScoreAvgs$PAA[1]
-		return(predict(pfh, pah, pfa, paa, isNeutralSite, homeSpread))
+		x <-data.frame(HomeTeamId = homeTeamIds, AwayTeamId = awayTeamIds, stringsAsFactors = F) %>%
+			inner_join(scoreAvgs, by = c('HomeTeamId' = 'TeamId')) %>%
+			inner_join(scoreAvgs, by = c('AwayTeamId' = 'TeamId'), suffix = c('_h', '_a')) %>%
+			mutate(PFH = ifelse(isNeutralSite, PFA_h, PFH_h),
+				   PAH = ifelse(isNeutralSite, PAA_h, PAH_h),
+				   PFA = PFA_a,
+				   PAA = PAA_a)
+
+		return(predict(x$PFH, x$PAH, x$PFA, x$PAA, isNeutralSite, homeSpread))
 	}
 
 	predict <- function(pfh, pah, pfa, paa, isNeutralSite = FALSE, homeSpread = 0){
 		homeGoalsFavored <- -1 * homeSpread
 		awayGoalsFavored <- -1 * homeGoalsFavored
 		sse <- sseMinFunction(pfHome = pfh, paHome = pah,
-							 pfAway = pfa, paAway = paa,
-							 intercept = coefs['Intercept'],
-							 pfHomeCoef = coefs['PFH'], paHomeCoef = coefs['PAH'],
-							 pfAwayCoef = coefs['PFA'], paAwayCoef = coefs['PAA'])
+							  pfAway = pfa, paAway = paa,
+							  intercept = as.numeric(coefs['Intercept']),
+							  pfHomeCoef = as.numeric(coefs['PFH']), paHomeCoef = as.numeric(coefs['PAH']),
+							  pfAwayCoef = as.numeric(coefs['PFA']), paAwayCoef = as.numeric(coefs['PAA']))
 		predictedHomeSpread <- as.numeric(coefIntercept + (coefSSE * sse))
 		predictedAwaySpread <- -1 * predictedHomeSpread
 		homeWinPct <- 1 - pnorm(homeGoalsFavored + ifelse(homeGoalsFavored%%1==0, 0.5, 0), mean = predictedHomeSpread, sd = stdDev)
