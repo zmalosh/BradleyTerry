@@ -59,8 +59,9 @@ ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySc
 								  HomeSpread = rep(homeSpread, times = length(pred.bt$HomeWinPct)),
 								  stringsAsFactors = FALSE)
 
-		result <- list(pred.ensemble.avg, pred.base)
-		names(result) <- c('pred', 'base.preds')
+		result <- list(pred = pred.ensemble.avg,
+					   base.preds = pred.base)
+
 		return(result)
 	}
 
