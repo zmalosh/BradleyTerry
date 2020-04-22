@@ -92,7 +92,8 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
-						AwayWinPct = p$AwayWinPct)
+						AwayWinPct = p$AwayWinPct,
+						stringsAsFactors = FALSE)
 		return(p)
 	}
 	predict <- function(homeStrength, awayStrength, isNeutralSite = FALSE, homeSpread = 0){
@@ -110,7 +111,8 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 					   HomeSpread = homeSpread,
 					   HomeWinPct = homeWinPct,
 					   DrawWinPct = drawWinPct,
-					   AwayWinPct = awayWinPct)
+					   AwayWinPct = awayWinPct,
+					   stringsAsFactors = FALSE)
 		return(result)
 	}
 

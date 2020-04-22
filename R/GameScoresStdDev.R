@@ -116,7 +116,8 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 							 RMSE = sqrt(mean(g$PredictionError ** 2)),
 							 MAE = mean(abs(g$PredictionError)),
 							 BrierScore = mean(g$ProbErrorSq),
-							 LogLoss = -1 * mean(g$LogError))
+							 LogLoss = -1 * mean(g$LogError),
+							 stringsAsFactors = FALSE)
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		x <-data.frame(HomeTeamId = homeTeamIds, AwayTeamId = awayTeamIds, stringsAsFactors = F) %>%
@@ -133,7 +134,8 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
-						AwayWinPct = p$AwayWinPct)
+						AwayWinPct = p$AwayWinPct,
+						stringsAsFactors = FALSE)
 		return(p)
 	}
 

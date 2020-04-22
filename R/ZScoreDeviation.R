@@ -119,7 +119,8 @@ z_score_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScore
 							 RMSE = sqrt(mean(g$PredictionError ** 2)),
 							 MAE = mean(abs(g$PredictionError)),
 							 BrierScore = mean(g$ProbErrorSq),
-							 LogLoss = -1 * mean(g$LogError))
+							 LogLoss = -1 * mean(g$LogError),
+							 stringsAsFactors = FALSE)
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 		homeStrength <- teamStrengths[paste0(as.character(homeTeamId), '_Home')]
@@ -131,7 +132,8 @@ z_score_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScore
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
-						AwayWinPct = p$AwayWinPct)
+						AwayWinPct = p$AwayWinPct,
+						stringsAsFactors = FALSE)
 		return(p)
 	}
 	predict <- function(homeStrength, awayStrength, isNeutralSite = FALSE, homeSpread = 0){

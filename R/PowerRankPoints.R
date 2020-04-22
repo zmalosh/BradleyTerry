@@ -99,7 +99,8 @@ power_rank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores
 							 RMSE = sqrt(mean(g$PredictionError ** 2)),
 							 MAE = mean(abs(g$PredictionError)),
 							 BrierScore = mean(g$ProbErrorSq),
-							 LogLoss = -1 * mean(g$LogError))
+							 LogLoss = -1 * mean(g$LogError),
+							 stringsAsFactors = FALSE)
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
 
@@ -115,7 +116,8 @@ power_rank <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayScores
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
-						AwayWinPct = p$AwayWinPct)
+						AwayWinPct = p$AwayWinPct,
+						stringsAsFactors = FALSE)
 		return(p)
 	}
 	predict <- function(homeOffRating, homeDefRating, awayOffRating, awayDefRating, isNeutralSite = FALSE, homeSpread = 0){
