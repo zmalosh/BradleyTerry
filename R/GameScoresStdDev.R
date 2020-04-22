@@ -120,7 +120,7 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 							 stringsAsFactors = FALSE)
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
-		x <-data.frame(HomeTeamId = homeTeamIds, AwayTeamId = awayTeamIds, stringsAsFactors = F) %>%
+		x <-data.frame(HomeTeamId = homeTeamId, AwayTeamId = awayTeamId, stringsAsFactors = F) %>%
 			inner_join(scoreAvgs, by = c('HomeTeamId' = 'TeamId')) %>%
 			inner_join(scoreAvgs, by = c('AwayTeamId' = 'TeamId'), suffix = c('_h', '_a')) %>%
 			mutate(PFH = ifelse(isNeutralSite, PFA_h, PFH_h),
