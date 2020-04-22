@@ -49,8 +49,8 @@ ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySc
 							  'ZScoreDeviation',
 							  'PowerRankPoints')
 
-		pred.ensemble.avg <- data.frame(HomeTeamId = homeTeamIds,
-										AwayTeamId = awayTeamIds,
+		pred.ensemble.avg <- data.frame(HomeTeamId = homeTeamId,
+										AwayTeamId = awayTeamId,
 										IsNeutralSite = isNeutralSite,
 										HomeWinPct = (pred.bt$HomeWinPct + pred.toor$HomeWinPct + pred.gssd$HomeWinPct + pred.zsd$HomeWinPct + pred.prp$HomeWinPct) / 5,
 										DrawWinPct = (pred.bt$DrawWinPct + pred.toor$DrawWinPct + pred.gssd$DrawWinPct + pred.zsd$DrawWinPct + pred.prp$DrawWinPct) / 5,
