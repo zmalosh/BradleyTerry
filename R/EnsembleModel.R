@@ -36,11 +36,11 @@ ensemble_model <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySc
 	homeSpread <- 0
 
 	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
-		pred.bt <- model.bt$predictGameByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
-		pred.toor <- model.toor$predictGameByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
-		pred.gssd <- model.gssd$predictGameByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
-		pred.zsd <- model.zsd$predictGameByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
-		pred.prp <- model.prp$predictGameByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
+		pred.bt <- model.bt$predictByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
+		pred.toor <- model.toor$predictByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
+		pred.gssd <- model.gssd$predictByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
+		pred.zsd <- model.zsd$predictByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
+		pred.prp <- model.prp$predictByIds(homeTeamId, awayTeamId, isNeutralSite, homeSpread = homeSpread)
 
 		pred.base <- list(pred.bt, pred.toor, pred.gssd, pred.zsd, pred.prp)
 		names(pred.base) <- c('BradleyTerry',
