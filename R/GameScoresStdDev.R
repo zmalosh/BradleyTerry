@@ -119,26 +119,6 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 							 LogLoss = -1 * mean(g$LogError),
 							 stringsAsFactors = FALSE)
 
-	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
-		x <-data.frame(HomeTeamId = homeTeamId, AwayTeamId = awayTeamId, stringsAsFactors = F) %>%
-			inner_join(scoreAvgs, by = c('HomeTeamId' = 'TeamId')) %>%
-			inner_join(scoreAvgs, by = c('AwayTeamId' = 'TeamId'), suffix = c('_h', '_a')) %>%
-			mutate(PFH = ifelse(isNeutralSite, PFA_h, PFH_h),
-				   PAH = ifelse(isNeutralSite, PAA_h, PAH_h),
-				   PFA = PFA_a,
-				   PAA = PAA_a)
-		p <- predict(x$PFH, x$PAH, x$PFA, x$PAA, isNeutralSite, homeSpread)
-		p <- data.frame(HomeTeamId = homeTeamId,
-						AwayTeamId = awayTeamId,
-						IsNeutralSite = p$IsNeutralSite,
-						PredHomeMargin = p$PredHomeMargin,
-						HomeSpread = p$HomeSpread,
-						HomeWinPct = p$HomeWinPct,
-						DrawWinPct = p$DrawWinPct,
-						AwayWinPct = p$AwayWinPct,
-						stringsAsFactors = FALSE)
-		return(p)
-	}
 
 	predict <- function(pfh, pah, pfa, paa, isNeutralSite = FALSE, homeSpread = 0){
 		homeGoalsFavored <- -1 * homeSpread
@@ -160,6 +140,29 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 					   DrawWinPct = drawWinPct,
 					   AwayWinPct = awayWinPct)
 		return(result)
+	}
+
+	# NEUTRAL SITES NOT CURRENTLY SUPPORTED
+	predictByIds <- function(homeTeamId, awayTeamId, isNeutralSite = FALSE, homeSpread = 0){
+		x <-data.frame(HomeTeamId = homeTeamId, AwayTeamId = awayTeamId, stringsAsFactors = F) %>%
+			inner_join(scoreAvgs, by = c('HomeTeamId' = 'TeamId')) %>%
+			inner_join(scoreAvgs, by = c('AwayTeamId' = 'TeamId'), suffix = c('_h', '_a')) %>%
+			mutate(PFH = PFH_h,
+				   PAH = PAH_h,
+				   PFA = PFA_a,
+				   PAA = PAA_a)
+		p <- predict(x$PFH, x$PAH, x$PFA, x$PAA, isNeutralSite, homeSpread)
+		p <- as.data.frame(p)
+		p <- data.frame(HomeTeamId = homeTeamId,
+						AwayTeamId = awayTeamId,
+						IsNeutralSite = p$IsNeutralSite,
+						PredHomeMargin = p$PredHomeMargin,
+						HomeSpread = p$HomeSpread,
+						HomeWinPct = p$HomeWinPct,
+						DrawWinPct = p$DrawWinPct,
+						AwayWinPct = p$AwayWinPct,
+						stringsAsFactors = FALSE)
+		return(p)
 	}
 
 	result <- list('teamScoreAvgs' = scoreAvgs,
