@@ -1,0 +1,241 @@
+---
+title: "Calculating Season Hot Sim and Power Ratings"
+output: html_notebook
+---
+
+# Hot Sim Setup for Bundesliga
+## Load Required Libraries
+```{r}
+library(httr)
+library(tidyverse)
+source('R/SetupGames.R')
+source('R/BradleyTerry.R')
+```
+
+## Get Games from API
+
+Get all the games for the 2019-2020 Bundesliga from the API Football API.
+
+```{r}
+get_api_football_json_from_url <- function(url){
+	key <- '71c766b005msh1ddcb3052482d45p14fb6cjsnaf3ff7900508'
+	headers <- c(key)
+	names(headers) <- 'X-RapidAPI-Key'
+
+	response <- httr::GET(url, add_headers(.headers = headers))
+	rawJson <- httr::content(response, as = 'text')
+	json <- jsonlite::fromJSON(rawJson)$api
+	return (json)
+}
+
+get_games_by_league_id <- function(leagueId){
+	url <- paste0('https://api-football-v1.p.rapidapi.com/v2/fixtures/league/', leagueId)
+	json <- get_api_football_json_from_url(url)
+	games <- json$fixtures
+	return (games)
+}
+
+leagueId <- 754
+rawGames <- get_games_by_league_id(leagueId)
+
+```
+
+
+
+Reduce games to Date, Teams, and Scores. Only games that are final or will be played are included (no postponed or cancelled). Any live game is considered to be not started and its scores will be reset to NA.
+
+Per API documentation and only wanting scheduled/final games, games with the following statuses are removed: SUSP (Suspended), PST (Postponed), CANC (Cancelled). Awarded games and forfeits will be included.
+
+```{r}
+games <- rawGames %>%
+	filter(!(statusShort %in% c('SUSP', 'PST', 'CANC'))) %>%
+	mutate(GameDate =  substr(event_date, 1, 10),
+		   HomeScore = ifelse(statusShort == 'FT' & GameDate < '2020-05-18', goalsHomeTeam, NA),
+		   AwayScore = ifelse(statusShort == 'FT' & GameDate < '2020-05-18', goalsAwayTeam, NA)) %>%
+	transform(GameId = fixture_id, HomeTeam = homeTeam$team_name, AwayTeam = awayTeam$team_name) %>%
+	select(GameId, GameDate, HomeTeam, AwayTeam, HomeScore, AwayScore)
+```
+
+Get future game dates
+
+```{r}
+futureDates <- (games %>% filter(is.na(HomeScore) & is.na(AwayScore)) %>% distinct(GameDate))$GameDate %>% sort()
+```
+
+Get current prediction model
+
+```{r}
+finalGames <- games %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
+predModel <- bradley_terry(finalGames$GameId,
+						   finalGames$HomeTeam,
+						   finalGames$AwayTeam,
+						   finalGames$HomeScore,
+						   finalGames$AwayScore)
+```
+
+Get predictions for today's games. The predictions are a probability for each possible home result. This means that each final score margin is individually returned. All margins with a magnitude of 10 or less are considered, leading to 21 individual probabilities. The 21 probabilities cover most, but not all, of the game outcomes. To take this into account, the probabilities are normalized by dividing by the sum of the probability of the considered results.
+
+The Bradley Terry model predicts margin of victory but not total score. Thus, all predictions will be set as clean sheet victories.
+
+```{r}
+currentDate <- futureDates[1]
+currentGames <- games %>% filter(GameDate == currentDate)
+
+df_teams <- data.frame(HomeTeamId = currentGames$HomeTeam,
+					   AwayTeamId = currentGames$AwayTeam,
+					   IsNeutralSite = F,
+					   Dummy = 1)
+df_results <- data.frame(HomeResult = seq(from = -10, to = 10, by = 1), Dummy = 1)
+df <- df_teams %>%
+	inner_join(df_results, by = 'Dummy') %>%
+	select(-Dummy)
+preds <- predModel$predictGameByIds(df$HomeTeamId, df$AwayTeamId, df$IsNeutralSite, df$HomeResult)
+predCumProb <- preds %>%
+	group_by(HomeTeamId, AwayTeamId) %>%
+	summarise(CumProb = sum(DrawWinPct)) %>%
+	ungroup() %>%
+	select(HomeTeamId, AwayTeamId, CumProb) %>%
+	mutate(RNG.Value = runif(n = nrow(currentGames), min = 0, max = 1))
+currentGames <- preds %>%
+	inner_join(predCumProb, by = c('HomeTeamId', 'AwayTeamId')) %>%
+	mutate(Prob = DrawWinPct / CumProb) %>%
+	select(HomeTeamId, AwayTeamId, HomeSpread, Prob, RNG.Value) %>%
+	group_by(HomeTeamId, AwayTeamId) %>%
+	mutate(RNG.High = cumsum(Prob), RNG.Low = RNG.High - Prob) %>%
+	ungroup() %>%
+	mutate(IsPred = RNG.Value >= RNG.Low & RNG.Value < RNG.High) %>%
+	filter(IsPred) %>%
+	select(HomeTeamId, AwayTeamId, HomeSpread) %>%
+	inner_join(currentGames, by = c('HomeTeamId' = 'HomeTeam', 'AwayTeamId' = 'AwayTeam')) %>%
+	mutate(HomeScore = ifelse(HomeSpread >= 0, HomeSpread, 0),
+		   AwayScore = ifelse(HomeSpread >= 0, 0, -1 * HomeSpread)) %>%
+	select(GameId, GameDate, HomeTeam = HomeTeamId, AwayTeam = AwayTeamId, HomeScore, AwayScore)
+```
+
+Add current game predictions to final games and remove from futureDates
+```{r}
+futureDates <- futureDates[1:length(futureDates) %in% 2:length(futureDates)]
+finalGames <- rbind(finalGames, currentGames)
+```
+
+Create current date prediction function
+```{r}
+simulateCurrentGames <- function(currentGames, finalGames){
+	df_teams <- data.frame(HomeTeamId = currentGames$HomeTeam,
+						   AwayTeamId = currentGames$AwayTeam,
+						   IsNeutralSite = F,
+						   Dummy = 1)
+	df_results <- data.frame(HomeResult = seq(from = -10, to = 10, by = 1), Dummy = 1)
+	df <- df_teams %>%
+		inner_join(df_results, by = 'Dummy') %>%
+		select(-Dummy)
+	preds <- predModel$predictGameByIds(df$HomeTeamId, df$AwayTeamId, df$IsNeutralSite, df$HomeResult)
+	predCumProb <- preds %>%
+		group_by(HomeTeamId, AwayTeamId) %>%
+		summarise(CumProb = sum(DrawWinPct)) %>%
+		ungroup() %>%
+		select(HomeTeamId, AwayTeamId, CumProb) %>%
+		mutate(RNG.Value = runif(n = nrow(currentGames), min = 0, max = 1))
+	result <- preds %>%
+		inner_join(predCumProb, by = c('HomeTeamId', 'AwayTeamId')) %>%
+		mutate(Prob = DrawWinPct / CumProb) %>%
+		select(HomeTeamId, AwayTeamId, HomeSpread, Prob, RNG.Value) %>%
+		group_by(HomeTeamId, AwayTeamId) %>%
+		mutate(RNG.High = cumsum(Prob), RNG.Low = RNG.High - Prob) %>%
+		ungroup() %>%
+		mutate(IsPred = RNG.Value >= RNG.Low & RNG.Value < RNG.High) %>%
+		filter(IsPred) %>%
+		select(HomeTeamId, AwayTeamId, HomeSpread) %>%
+		inner_join(currentGames, by = c('HomeTeamId' = 'HomeTeam', 'AwayTeamId' = 'AwayTeam')) %>%
+		mutate(HomeScore = ifelse(HomeSpread >= 0, HomeSpread, 0),
+			   AwayScore = ifelse(HomeSpread >= 0, 0, -1 * HomeSpread)) %>%
+		select(GameId, GameDate, HomeTeam = HomeTeamId, AwayTeam = AwayTeamId, HomeScore, AwayScore)
+	return(result)
+}
+```
+
+Predict next games and update futureDates and finalGames
+```{r}
+currentDate <- futureDates[1]
+currentGames <- games %>% filter(GameDate == currentDate)
+currentGames <- simulateCurrentGames(currentGames, finalGames)
+futureDates <- futureDates[1:length(futureDates) %in% 2:length(futureDates)]
+finalGames <- rbind(finalGames, currentGames)
+```
+
+Looks like it's working. Let's restart the process and run a for loop to simulate the season. This also means we don't have to edit the futureDates vector after each loop because we are iterating
+
+```{r}
+set.seed(101989)
+games <- rawGames %>%
+	filter(!(statusShort %in% c('SUSP', 'PST', 'CANC'))) %>%
+	mutate(GameDate =  substr(event_date, 1, 10),
+		   HomeScore = ifelse(statusShort == 'FT' & GameDate < '2020-05-17', goalsHomeTeam, NA),
+		   AwayScore = ifelse(statusShort == 'FT' & GameDate < '2020-05-17', goalsAwayTeam, NA)) %>%
+	transform(GameId = fixture_id, HomeTeam = homeTeam$team_name, AwayTeam = awayTeam$team_name) %>%
+	select(GameId, GameDate, HomeTeam, AwayTeam, HomeScore, AwayScore)
+
+finalGames <- games %>% filter(!is.na(HomeScore) & !is.na(AwayScore))
+predModel <- bradley_terry(finalGames$GameId,
+						   finalGames$HomeTeam,
+						   finalGames$AwayTeam,
+						   finalGames$HomeScore,
+						   finalGames$AwayScore)
+
+futureDates <- (games %>% filter(is.na(HomeScore) & is.na(AwayScore)) %>% distinct(GameDate))$GameDate %>% sort()
+
+for(i in 1:length(futureDates)){
+	currentDate <- futureDates[i]
+	currentGames <- games %>% filter(GameDate == currentDate)
+	currentGameSim <- simulateCurrentGames(currentGames, finalGames)
+	finalGames <- rbind(finalGames, currentGameSim)
+}
+```
+
+Check resulting standings for plausibility
+```{r}
+standings <- tibble(
+		Team = c(finalGames$HomeTeam, finalGames$AwayTeam),
+		OppTeam = c(finalGames$AwayTeam, finalGames$HomeTeam),
+		Score = c(finalGames$HomeScore, finalGames$AwayScore),
+		OppScore = c(finalGames$AwayScore, finalGames$HomeScore)
+	) %>%
+	group_by(Team) %>%
+	summarise(Wins = sum(ifelse(Score > OppScore, 1, 0)),
+			  Draws = sum(ifelse(Score == OppScore, 1, 0)),
+			  Losses = sum(ifelse(Score < OppScore, 1, 0)),
+			  GoalDiff = sum(Score - OppScore)) %>%
+	ungroup() %>%
+	mutate(Points = (Wins * 3) + (Draws * 1)) %>%
+	arrange(-Points, -Wins, -GoalDiff)
+```
+
+Create Power Rankings by pairing all teams and calculating a team rating for each team. The team rating is calculated by taking the avg expected points from each pairing and dividing that value by 5/3, the expected point value for each game (3 points for a win and one point per team for a draw)
+```{r}
+predModel <- bradley_terry(gameIds = finalGames$GameId,
+					homeTeamIds = finalGames$HomeTeam,
+					awayTeamIds = finalGames$AwayTeam,
+					homeScores = finalGames$HomeScore,
+					awayScores = finalGames$AwayScore,
+					isNeutralSite = F)
+teams <- tibble(TeamName = finalGames$HomeTeam %>% unique(), Dummy = 1)
+teamPairings <- teams %>%
+	inner_join(teams, by = 'Dummy') %>%
+	select(HomeTeam = TeamName.x, AwayTeam = TeamName.y) %>%
+	filter(HomeTeam != AwayTeam) %>%
+	cbind(predModel$predictGameByIds(homeTeamId = .$HomeTeam, awayTeamId = .$AwayTeam, isNeutralSite = F)) %>%
+	select(-HomeTeamId, -AwayTeamId, -IsNeutralSite, -HomeSpread) %>%
+	mutate(HomeExpPts = (3 * HomeWinPct) + (1 * DrawWinPct),
+		   AwayExpPts = (3 * AwayWinPct) + (1 * DrawWinPct))
+powerRankings <- tibble(
+		Team = c(teamPairings$HomeTeam, teamPairings$AwayTeam),
+		OppTeam = c(teamPairings$AwayTeam, teamPairings$HomeTeam),
+		ExpPoints = c(teamPairings$HomeExpPts, teamPairings$AwayExpPts),
+		OppExpPoints = c(teamPairings$AwayExpPts, teamPairings$HomeExpPts)
+	) %>%
+	group_by(Team) %>%
+	summarise(TeamRating = mean(ExpPoints)) %>%
+	mutate(TeamRating = TeamRating / (5/3)) %>%
+	arrange(-TeamRating)
+)
+```
