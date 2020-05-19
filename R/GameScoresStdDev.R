@@ -87,7 +87,7 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 		transform(PFH = ifelse(IsNeutralSite, PFA_h, PFH_h),
 				  PAH = ifelse(IsNeutralSite, PAA_h, PAH_h),
 				  PFA = PFA_a,
-				  PAA = PFA_a) %>%
+				  PAA = PAA_a) %>%
 		select(-c(PFH_h, PAH_h, PFA_h, PAA_h, PFH_a, PAH_a, PFA_a, PAA_a))
 
 	coefs <- get_coefficients(games = g)
