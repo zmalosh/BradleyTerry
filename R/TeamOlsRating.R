@@ -83,6 +83,7 @@ team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayS
 		p <- data.frame(HomeTeamId = homeTeamId,
 						AwayTeamId = awayTeamId,
 						IsNeutralSite = p$IsNeutralSite,
+						PredHomeMargin = p$PredHomeMargin,
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
@@ -105,6 +106,7 @@ team_ols_rating <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awayS
 		awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
 		drawWinPct <- 1 - (homeWinPct + awayWinPct)
 		result <- list(IsNeutralSite = isNeutralSite,
+					   PredHomeMargin = predictedHomeSpread + homeSpread,
 					   HomeSpread = homeSpread,
 					   HomeWinPct = homeWinPct,
 					   DrawWinPct = drawWinPct,

@@ -131,6 +131,7 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 		p <- data.frame(HomeTeamId = homeTeamId,
 						AwayTeamId = awayTeamId,
 						IsNeutralSite = p$IsNeutralSite,
+						PredHomeMargin = p$PredHomeMargin,
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
@@ -153,6 +154,7 @@ game_scores_std_dev <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, a
 		awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
 		drawWinPct <- 1 - (homeWinPct + awayWinPct)
 		result <- list(IsNeutralSite = isNeutralSite,
+					   PredHomeMargin = predictedHomeSpread + homeSpread,
 					   HomeSpread = homeSpread,
 					   HomeWinPct = homeWinPct,
 					   DrawWinPct = drawWinPct,

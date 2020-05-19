@@ -89,6 +89,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 		p <- data.frame(HomeTeamId = homeTeamId,
 						AwayTeamId = awayTeamId,
 						IsNeutralSite = p$IsNeutralSite,
+						PredHomeMargin = p$PredHomeMargin,
 						HomeSpread = p$HomeSpread,
 						HomeWinPct = p$HomeWinPct,
 						DrawWinPct = p$DrawWinPct,
@@ -108,6 +109,7 @@ bradley_terry <- function(gameIds, homeTeamIds, awayTeamIds, homeScores, awaySco
 		awayWinPct <- 1 - pnorm(awayGoalsFavored + ifelse(awayGoalsFavored%%1==0, 0.5, 0), mean = predictedAwaySpread, sd = stdDev)
 		drawWinPct <- 1 - (homeWinPct + awayWinPct)
 		result <- list(IsNeutralSite = isNeutralSite,
+					   PredHomeMargin = predictedHomeSpread + homeSpread,
 					   HomeSpread = homeSpread,
 					   HomeWinPct = homeWinPct,
 					   DrawWinPct = drawWinPct,
