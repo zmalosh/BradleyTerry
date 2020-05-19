@@ -28,7 +28,7 @@ get_games_by_league_id <- function(leagueId){
 	return (games)
 }
 
-leagueId <- 785
+leagueId <- 754
 rawGames <- get_games_by_league_id(leagueId)
 gameIds <- rawGames$fixture_id
 homeTeamIds <- rawGames$homeTeam$team_name
